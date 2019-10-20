@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Teacher {
+public class ReferenceTeacher {
     @Id
     @GeneratedValue
     private Long id;
@@ -39,7 +39,7 @@ public class Teacher {
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId=true)
-    private Set<Course> courses = new HashSet();
+    private Set<ReferenceCourse> courses = new HashSet();
 
     @Pattern(regexp="(^$|[0-9]{10,})", message = "must contain only numbers. minimum length = 10")
     @Column(nullable = false)

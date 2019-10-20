@@ -1,12 +1,11 @@
 package edu.baylor.cs.se.hibernate.services;
 
 import edu.baylor.cs.se.hibernate.dao.HeroDao;
-import edu.baylor.cs.se.hibernate.model.Hero;
+import edu.baylor.cs.se.hibernate.model.ReferenceHero;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -17,19 +16,19 @@ public class HeroService {
     @Autowired
     HeroDao heroDao;
 
-    public Hero getHeroById(Long id){
+    public ReferenceHero getHeroById(Long id){
         return heroDao.getHeroById(id);
     }
 
-    public List<Hero> getAllHeroes(){
+    public List<ReferenceHero> getAllHeroes(){
         return heroDao.getAllHeroes();
     }
 
-    public List<Hero> getHeroesByCondition(String name, String asc){
+    public List<ReferenceHero> getHeroesByCondition(String name, String asc){
         return null;
     }
 
-    public void save(Hero room) {
+    public void save(ReferenceHero room) {
         heroDao.save(room);
     }
 
@@ -37,36 +36,36 @@ public class HeroService {
         heroDao.delete(id);
     }
 
-    public void update(Hero room) {
+    public void update(ReferenceHero room) {
         heroDao.update(room);
     }
 
     public void populate(){
-        Hero hero1 = new Hero("Harry", "Asian", 21.44, true);
+        ReferenceHero hero1 = new ReferenceHero("Harry", "Asian", 21.44, true);
         heroDao.save(hero1);
-        hero1 = new Hero("Jery", "Caucasian", 12.44, true);
+        hero1 = new ReferenceHero("Jery", "Caucasian", 12.44, true);
         heroDao.save(hero1);
-        hero1 = new Hero("Jesse", "Asian", 15.44, true);
+        hero1 = new ReferenceHero("Jesse", "Asian", 15.44, true);
         heroDao.save(hero1);
-        hero1 = new Hero("Rob", "Indian", 17.44, true);
+        hero1 = new ReferenceHero("Rob", "Indian", 17.44, true);
         heroDao.save(hero1);
-        hero1 = new Hero("Roy", "Asian", 8.44, true);
+        hero1 = new ReferenceHero("Roy", "Asian", 8.44, true);
         heroDao.save(hero1);
 
-        hero1 = new Hero("Hwarry", "Indian", 21.44, false);
+        hero1 = new ReferenceHero("Hwarry", "Indian", 21.44, false);
         heroDao.save(hero1);
-        hero1 = new Hero("Jwery", "Asian", 12.44, false);
+        hero1 = new ReferenceHero("Jwery", "Asian", 12.44, false);
         heroDao.save(hero1);
-        hero1 = new Hero("Jwesse", "Caucasian", 15.44, false);
+        hero1 = new ReferenceHero("Jwesse", "Caucasian", 15.44, false);
         heroDao.save(hero1);
-        hero1 = new Hero("Toby", "Asian", 17.44, false);
+        hero1 = new ReferenceHero("Toby", "Asian", 17.44, false);
         heroDao.save(hero1);
-        hero1 = new Hero("Kev", "Asian", 8.44, false);
+        hero1 = new ReferenceHero("Kev", "Asian", 8.44, false);
         heroDao.save(hero1);
 
     }
 
-    public Hero fight(Hero hero1, Hero hero2){
+    public ReferenceHero fight(ReferenceHero hero1, ReferenceHero hero2){
 
         if (hero1.isDarkSide() && hero2.isDarkSide()){
             return null;

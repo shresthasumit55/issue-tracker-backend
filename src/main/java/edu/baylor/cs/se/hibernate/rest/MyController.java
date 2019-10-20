@@ -1,8 +1,8 @@
 package edu.baylor.cs.se.hibernate.rest;
 
-import edu.baylor.cs.se.hibernate.model.Course;
-import edu.baylor.cs.se.hibernate.model.Hero;
-import edu.baylor.cs.se.hibernate.model.Room;
+import edu.baylor.cs.se.hibernate.model.ReferenceCourse;
+import edu.baylor.cs.se.hibernate.model.ReferenceHero;
+import edu.baylor.cs.se.hibernate.model.ReferenceRoom;
 import edu.baylor.cs.se.hibernate.services.HeroService;
 import edu.baylor.cs.se.hibernate.services.RoomService;
 import edu.baylor.cs.se.hibernate.services.SuperRepository;
@@ -39,23 +39,23 @@ public class MyController {
     }
 
     @RequestMapping(value = "/courses", method = RequestMethod.GET)
-    public ResponseEntity<Course> getCoursesBySize(){
+    public ResponseEntity<ReferenceCourse> getCoursesBySize(){
         return new ResponseEntity(superRepository.getCoursesBySize(),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/courses2", method = RequestMethod.GET)
-    public ResponseEntity<Course> getCoursesByStudentName(){
+    public ResponseEntity<ReferenceCourse> getCoursesByStudentName(){
         return new ResponseEntity(superRepository.getCoursesByStudentName(),HttpStatus.OK);
     }
 
     @PostMapping(value = "/save-room", produces = "application/json")
-    public Room saveRoom(@RequestBody Room room) {
+    public ReferenceRoom saveRoom(@RequestBody ReferenceRoom room) {
         roomService.save(room);
         return room;
     }
 
     @RequestMapping(value = "/update-room", method = RequestMethod.PUT)
-    public Room updateRoom(@RequestBody Room room) {
+    public ReferenceRoom updateRoom(@RequestBody ReferenceRoom room) {
         roomService.update(room);
         return room;
     }
@@ -66,19 +66,19 @@ public class MyController {
     }
 
     @RequestMapping(value = "/heroes", method = RequestMethod.GET)
-    public ResponseEntity<List<Hero>> getHeroes(){
+    public ResponseEntity<List<ReferenceHero>> getHeroes(){
         return new ResponseEntity(heroService.getAllHeroes(),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/heroes", method = RequestMethod.POST)
-    public ResponseEntity<Hero> fillHeroes(@RequestBody Hero hero){
+    public ResponseEntity<ReferenceHero> fillHeroes(@RequestBody ReferenceHero hero){
         heroService.save(hero);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     //Please send a json array to fight the heroes
     @RequestMapping(value = "/heroes/fight", method = RequestMethod.POST)
-    public ResponseEntity<Hero> fight(@RequestBody List<Hero> heroes){
+    public ResponseEntity<ReferenceHero> fight(@RequestBody List<ReferenceHero> heroes){
         return new ResponseEntity(heroService.fight(heroes.get(0),heroes.get(1)),HttpStatus.OK);
     }
 
@@ -89,13 +89,13 @@ public class MyController {
     }
 
     @RequestMapping(value = "/heroes/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Hero> getHeroById(@PathVariable("id") Long id){
+    public ResponseEntity<ReferenceHero> getHeroById(@PathVariable("id") Long id){
         return new ResponseEntity(heroService.getHeroById(id),HttpStatus.OK);
     }
 
     /*
     @RequestMapping(value = "/heroes", method = RequestMethod.GET)
-    public ResponseEntity<List<Hero>> getHeroes(@RequestParam("name") String name,
+    public ResponseEntity<List<ReferenceHero>> getHeroes(@RequestParam("name") String name,
                                                 @RequestParam("sort") String asc,){
         return new ResponseEntity(heroService.getHeroesByCondition(name,asc),HttpStatus.OK);
     }

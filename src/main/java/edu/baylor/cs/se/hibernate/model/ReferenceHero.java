@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class Hero implements Serializable {
+public class ReferenceHero implements Serializable {
 
 
     @Id
@@ -24,11 +24,11 @@ public class Hero implements Serializable {
     @Column
     private boolean isDarkSide;
 
-    public Hero() {
+    public ReferenceHero() {
 
     }
 
-    public Hero(String name, String race, double strength, boolean isDarkSide) {
+    public ReferenceHero(String name, String race, double strength, boolean isDarkSide) {
         this.name = name;
         this.race = race;
         this.strength = strength;

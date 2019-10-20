@@ -1,7 +1,6 @@
 package edu.baylor.cs.se.hibernate.dao;
 
-import edu.baylor.cs.se.hibernate.model.Hero;
-import edu.baylor.cs.se.hibernate.model.Room;
+import edu.baylor.cs.se.hibernate.model.ReferenceHero;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -14,25 +13,25 @@ public class HeroDao {
     @PersistenceContext
     private EntityManager em;
 
-    public Hero getHeroById(Long id){
-        return (Hero) em.createQuery("SELECT c FROM Hero c WHERE c.id=:id").setParameter("id",id).getSingleResult();
+    public ReferenceHero getHeroById(Long id){
+        return (ReferenceHero) em.createQuery("SELECT c FROM ReferenceHero c WHERE c.id=:id").setParameter("id",id).getSingleResult();
     }
 
-    public List<Hero> getAllHeroes(){
-        return (List<Hero>) em.createQuery("SELECT c FROM Hero c").getResultList();
+    public List<ReferenceHero> getAllHeroes(){
+        return (List<ReferenceHero>) em.createQuery("SELECT c FROM ReferenceHero c").getResultList();
     }
 
     public void delete(Long id){
-        Hero hero = getHeroById(id);
+        ReferenceHero hero = getHeroById(id);
         em.remove(hero);
 
     }
 
-    public void save(Hero hero) {
+    public void save(ReferenceHero hero) {
         em.persist(hero);
     }
 
-    public void update(Hero hero) {
+    public void update(ReferenceHero hero) {
         em.merge(hero);
     }
 

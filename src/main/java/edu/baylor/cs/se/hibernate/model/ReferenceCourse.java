@@ -11,12 +11,12 @@ import java.util.Set;
 //Obsolete with Java 8 @Repeatable annotation
 @NamedQueries({
         @NamedQuery(
-                name = "Course.findCoursesByStudentName",
-                query = "SELECT c FROM Course c JOIN c.students s WHERE s.name = :name"
+                name = "ReferenceCourse.findCoursesByStudentName",
+                query = "SELECT c FROM ReferenceCourse c JOIN c.students s WHERE s.name = :name"
         )
 })
 @Entity
-public class Course {
+public class ReferenceCourse {
 
     @Id
     @GeneratedValue
@@ -31,7 +31,7 @@ public class Course {
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId=true)
-    private Teacher teacher;
+    private ReferenceTeacher teacher;
 
     @ManyToMany//(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "STUDENT_COURSE",
@@ -42,16 +42,16 @@ public class Course {
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId=true)
-    private Set<Student> students = new HashSet();
+    private Set<ReferenceStudent> students = new HashSet();
 
     @ManyToOne
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId=true)
-    private Room assignedRoom;
+    private ReferenceRoom assignedRoom;
 
-    public void setStudents(Set<Student> students) {
+    public void setStudents(Set<ReferenceStudent> students) {
         this.students = students;
     }
 
@@ -67,23 +67,23 @@ public class Course {
         this.name = name;
     }
 
-    public Teacher getTeacher() {
+    public ReferenceTeacher getTeacher() {
         return teacher;
     }
 
-    public void setTeacher(Teacher teacher) {
+    public void setTeacher(ReferenceTeacher teacher) {
         this.teacher = teacher;
     }
 
-    public Set<Student> getStudents() {
+    public Set<ReferenceStudent> getStudents() {
         return students;
     }
 
-    public Room getAssignedRoom() {
+    public ReferenceRoom getAssignedRoom() {
         return assignedRoom;
     }
 
-    public void setAssignedRoom(Room assignedRoom) {
+    public void setAssignedRoom(ReferenceRoom assignedRoom) {
         this.assignedRoom = assignedRoom;
     }
 }

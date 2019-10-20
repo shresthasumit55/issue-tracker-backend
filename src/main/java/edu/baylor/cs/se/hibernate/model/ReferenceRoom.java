@@ -7,11 +7,10 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Room implements Serializable {
+public class ReferenceRoom implements Serializable {
 
     @Id
     @GeneratedValue
@@ -27,7 +26,7 @@ public class Room implements Serializable {
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId=true)
-    private Set<Course> associatedCourses;
+    private Set<ReferenceCourse> associatedCourses;
 
     public Long getId() {
         return id;
@@ -45,11 +44,11 @@ public class Room implements Serializable {
         this.location = location;
     }
 
-    public Set<Course> getAssociatedCourses() {
+    public Set<ReferenceCourse> getAssociatedCourses() {
         return associatedCourses;
     }
 
-    public void setAssociatedCourses(Set<Course> associatedCourses) {
+    public void setAssociatedCourses(Set<ReferenceCourse> associatedCourses) {
         this.associatedCourses = associatedCourses;
     }
 }

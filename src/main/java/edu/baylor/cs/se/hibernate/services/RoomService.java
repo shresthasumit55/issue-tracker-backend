@@ -1,16 +1,10 @@
 package edu.baylor.cs.se.hibernate.services;
 
 import edu.baylor.cs.se.hibernate.dao.RoomDao;
-import edu.baylor.cs.se.hibernate.model.Course;
-import edu.baylor.cs.se.hibernate.model.Room;
+import edu.baylor.cs.se.hibernate.model.ReferenceRoom;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.List;
 
 @Transactional
 @Service
@@ -19,7 +13,7 @@ public class RoomService {
     @Autowired
     RoomDao roomDao;
 
-    public void save(Room room) {
+    public void save(ReferenceRoom room) {
         roomDao.save(room);
     }
 
@@ -28,7 +22,7 @@ public class RoomService {
 
     }
 
-    public void update(Room room) {
+    public void update(ReferenceRoom room) {
         roomDao.update(room);
     }
 

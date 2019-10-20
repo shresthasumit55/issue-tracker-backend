@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Student implements Serializable{
+public class ReferenceStudent implements Serializable{
 
     @Id
     @GeneratedValue
@@ -32,13 +32,13 @@ public class Student implements Serializable{
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")
     @JsonIdentityReference(alwaysAsId=true)
-    private Set<Course> courses = new HashSet();
+    private Set<ReferenceCourse> courses = new HashSet();
 
-    public Set<Course> getCourses() {
+    public Set<ReferenceCourse> getCourses() {
         return courses;
     }
 
-    public void setCourses(Set<Course> courses) {
+    public void setCourses(Set<ReferenceCourse> courses) {
         this.courses = courses;
     }
 

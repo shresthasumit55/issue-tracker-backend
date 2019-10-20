@@ -1,9 +1,9 @@
 package edu.baylor.cs.se.hibernate.services;
 
-import edu.baylor.cs.se.hibernate.model.Course;
-import edu.baylor.cs.se.hibernate.model.Room;
-import edu.baylor.cs.se.hibernate.model.Student;
-import edu.baylor.cs.se.hibernate.model.Teacher;
+import edu.baylor.cs.se.hibernate.model.ReferenceCourse;
+import edu.baylor.cs.se.hibernate.model.ReferenceRoom;
+import edu.baylor.cs.se.hibernate.model.ReferenceStudent;
+import edu.baylor.cs.se.hibernate.model.ReferenceTeacher;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,14 +20,14 @@ public class SuperRepository {
     private EntityManager em;
 
     public void populate(){
-        Student student = createStudent("Joe");
-        Student student2 = createStudent("John");
-        Student student3 = createStudent("Bob");
-        Student student4 = createStudent("Tim");
-        Student student5 = createStudent("Jimmy");
+        ReferenceStudent student = createStudent("Joe");
+        ReferenceStudent student2 = createStudent("John");
+        ReferenceStudent student3 = createStudent("Bob");
+        ReferenceStudent student4 = createStudent("Tim");
+        ReferenceStudent student5 = createStudent("Jimmy");
 
 
-        Teacher teacher = new Teacher();
+        ReferenceTeacher teacher = new ReferenceTeacher();
         teacher.setFirstName("Bob");
         teacher.setLastName("Porter");
         teacher.setEmail("bob@porter.com");
@@ -36,7 +36,7 @@ public class SuperRepository {
         teacher.setTelephoneNumber("1234567890"); //this passes validation
         em.persist(teacher);
 
-        Course course = new Course();
+        ReferenceCourse course = new ReferenceCourse();
         course.setName("Software engineering");
         course.setTeacher(teacher);
         course.getStudents().add(student);
@@ -44,7 +44,7 @@ public class SuperRepository {
         course.getStudents().add(student4);
         em.persist(course);
 
-        Course course2 = new Course();
+        ReferenceCourse course2 = new ReferenceCourse();
         course2.setName("Boring class");
         course2.setTeacher(teacher);
         course2.getStudents().add(student);
@@ -54,12 +54,12 @@ public class SuperRepository {
         //Do you know why this is not working?
         student2.getCourses().add(course);
 
-        Room room = new Room();
+        ReferenceRoom room = new ReferenceRoom();
         room.setLocation("Cashion 308");
         course.setAssignedRoom(room);
         em.persist(room);
 
-        Room room2 = new Room();
+        ReferenceRoom room2 = new ReferenceRoom();
         room2.setLocation("Cashion 306");
         course2.setAssignedRoom(room2);
         em.persist(room2);
@@ -69,19 +69,19 @@ public class SuperRepository {
     /**
      * List of courses with more than 2 students (3 and more)
      */
-    public List<Course> getCoursesBySize(){
-        return em.createQuery("SELECT c FROM Course c WHERE c.students.size > 2 ").getResultList();
+    public List<ReferenceCourse> getCoursesBySize(){
+        return em.createQuery("SELECT c FROM ReferenceCourse c WHERE c.students.size > 2 ").getResultList();
     }
 
     /**
      * List of courses with more than 2 students (3 and more)
      */
-    public List<Course> getCoursesByStudentName(){
-        return em.createNamedQuery("Course.findCoursesByStudentName").setParameter("name","Jimmy").getResultList();
+    public List<ReferenceCourse> getCoursesByStudentName(){
+        return em.createNamedQuery("ReferenceCourse.findCoursesByStudentName").setParameter("name","Jimmy").getResultList();
     }
 
-    private Student createStudent(String name){
-        Student student = new Student();
+    private ReferenceStudent createStudent(String name){
+        ReferenceStudent student = new ReferenceStudent();
         student.setName(name);
         em.persist(student);
         return student;
