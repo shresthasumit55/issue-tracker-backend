@@ -47,18 +47,21 @@ public class MyController {
     public ResponseEntity<ReferenceCourse> getCoursesByStudentName(){
         return new ResponseEntity(superRepository.getCoursesByStudentName(),HttpStatus.OK);
     }
-
+/*
     @PostMapping(value = "/save-room", produces = "application/json")
     public ReferenceRoom saveRoom(@RequestBody ReferenceRoom room) {
         roomService.save(room);
         return room;
     }
 
+
     @RequestMapping(value = "/update-room", method = RequestMethod.PUT)
     public ReferenceRoom updateRoom(@RequestBody ReferenceRoom room) {
         roomService.update(room);
         return room;
     }
+    */
+
     @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
     public ResponseEntity deleteRoom(@PathVariable("id") Long id) {
         roomService.delete(id);
