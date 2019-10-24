@@ -1,7 +1,6 @@
 package edu.baylor.cs.se.hibernate.rest;
 
 import edu.baylor.cs.se.hibernate.model.Issue;
-import edu.baylor.cs.se.hibernate.model.ReferenceCourse;
 import edu.baylor.cs.se.hibernate.services.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

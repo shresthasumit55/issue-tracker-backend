@@ -1,11 +1,5 @@
-package edu.baylor.cs.se.hibernate.rest;
+/*package edu.baylor.cs.se.hibernate.rest;
 
-import edu.baylor.cs.se.hibernate.model.ReferenceCourse;
-import edu.baylor.cs.se.hibernate.model.ReferenceHero;
-import edu.baylor.cs.se.hibernate.model.ReferenceRoom;
-import edu.baylor.cs.se.hibernate.services.HeroService;
-import edu.baylor.cs.se.hibernate.services.RoomService;
-import edu.baylor.cs.se.hibernate.services.SuperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +41,7 @@ public class MyController {
     public ResponseEntity<ReferenceCourse> getCoursesByStudentName(){
         return new ResponseEntity(superRepository.getCoursesByStudentName(),HttpStatus.OK);
     }
-/*
+
     @PostMapping(value = "/save-room", produces = "application/json")
     public ReferenceRoom saveRoom(@RequestBody ReferenceRoom room) {
         roomService.save(room);
@@ -60,7 +54,7 @@ public class MyController {
         roomService.update(room);
         return room;
     }
-    */
+
 
     @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
     public ResponseEntity deleteRoom(@PathVariable("id") Long id) {
@@ -102,7 +96,8 @@ public class MyController {
                                                 @RequestParam("sort") String asc,){
         return new ResponseEntity(heroService.getHeroesByCondition(name,asc),HttpStatus.OK);
     }
-    */
+
 
 
 }
+*/
