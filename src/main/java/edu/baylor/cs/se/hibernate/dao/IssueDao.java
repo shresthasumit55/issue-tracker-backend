@@ -18,7 +18,7 @@ public class IssueDao {
     }
 
     public List<Issue> getAllIssues(){
-        return (List<Issue>) em.createQuery("SELECT i FROM Issue i");
+        return (List<Issue>) em.createQuery("SELECT i FROM Issue i").getResultList();
     }
 
     public void delete(Long id){
