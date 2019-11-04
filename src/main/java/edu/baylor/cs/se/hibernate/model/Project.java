@@ -19,7 +19,7 @@ public class Project {
 
     @NotNull
     @Column
-    private String key;
+    private String key_id;
 
     @NotNull
     @Column
@@ -36,10 +36,10 @@ public class Project {
     private Set<User> members;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
-    private List<UserRoleMapping> availableRoles;
+    private Set<UserRoleMapping> availableRoles;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
-    private List<Issue> issues;
+    private Set<Issue> issues;
 
     public Project() {
     }
@@ -53,11 +53,11 @@ public class Project {
     }
 
     public String getKey() {
-        return key;
+        return key_id;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setKey(String key_id) {
+        this.key_id = key_id;
     }
 
     public String getName() {
@@ -84,19 +84,19 @@ public class Project {
         this.members = members;
     }
 
-    public List<UserRoleMapping> getAvailableRoles() {
+    public Set<UserRoleMapping> getAvailableRoles() {
         return availableRoles;
     }
 
-    public void setAvailableRoles(List<UserRoleMapping> availableRoles) {
+    public void setAvailableRoles(Set<UserRoleMapping> availableRoles) {
         this.availableRoles = availableRoles;
     }
 
-    public List<Issue> getIssues() {
+    public Set<Issue> getIssues() {
         return issues;
     }
 
-    public void setIssues(List<Issue> issues) {
+    public void setIssues(Set<Issue> issues) {
         this.issues = issues;
     }
 
@@ -105,11 +105,11 @@ public class Project {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Project project = (Project) o;
-        return key.equals(project.key);
+        return key_id.equals(project.key_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(key);
+        return Objects.hash(key_id);
     }
 }

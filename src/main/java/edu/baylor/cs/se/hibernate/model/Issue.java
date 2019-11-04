@@ -3,6 +3,7 @@ package edu.baylor.cs.se.hibernate.model;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -45,8 +46,9 @@ public class Issue {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "issue")
     private List<Comment> comments;
 
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "issue")
-    private List<ChangeTracker> trackingHistory;
+    private Set<ChangeTracker> trackingHistory;
 
     public Long getId() {
         return id;
@@ -144,11 +146,11 @@ public class Issue {
         this.comments = comments;
     }
 
-    public List<ChangeTracker> getTrackingHistory() {
+    public Set<ChangeTracker> getTrackingHistory() {
         return trackingHistory;
     }
 
-    public void setTrackingHistory(List<ChangeTracker> trackingHistory) {
+    public void setTrackingHistory(Set<ChangeTracker> trackingHistory) {
         this.trackingHistory = trackingHistory;
     }
 }

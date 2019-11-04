@@ -35,19 +35,19 @@ public class User {
     private String email;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private List<UserRoleMapping> availableRoles;
+    private Set<UserRoleMapping> availableRoles;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "creator")
-    private List<Issue> createdIssues;
+    private Set<Issue> createdIssues;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "assignee")
-    private List<Issue> assignedIssues;
+    private Set<Issue> assignedIssues;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private List<Comment> postedComments;
+    private Set<Comment> postedComments;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "modifiedBy")
-    private List<ChangeTracker> issueModifications;
+    private Set<ChangeTracker> issueModifications;
 
 
     public User() {
@@ -101,11 +101,11 @@ public class User {
         this.projectsInvolved = projectsInvolved;
     }
 
-    public List<UserRoleMapping> getAvailableRoles() {
+    public Set<UserRoleMapping> getAvailableRoles() {
         return availableRoles;
     }
 
-    public void setAvailableRoles(List<UserRoleMapping> availableRoles) {
+    public void setAvailableRoles(Set<UserRoleMapping> availableRoles) {
         this.availableRoles = availableRoles;
     }
 
@@ -120,35 +120,35 @@ public class User {
                 email.equals(user.email);
     }
 
-    public List<Issue> getCreatedIssues() {
+    public Set<Issue> getCreatedIssues() {
         return createdIssues;
     }
 
-    public void setCreatedIssues(List<Issue> createdIssues) {
+    public void setCreatedIssues(Set<Issue> createdIssues) {
         this.createdIssues = createdIssues;
     }
 
-    public List<Issue> getAssignedIssues() {
+    public Set<Issue> getAssignedIssues() {
         return assignedIssues;
     }
 
-    public void setAssignedIssues(List<Issue> assignedIssues) {
+    public void setAssignedIssues(Set<Issue> assignedIssues) {
         this.assignedIssues = assignedIssues;
     }
 
-    public List<Comment> getPostedComments() {
+    public Set<Comment> getPostedComments() {
         return postedComments;
     }
 
-    public void setPostedComments(List<Comment> postedComments) {
+    public void setPostedComments(Set<Comment> postedComments) {
         this.postedComments = postedComments;
     }
 
-    public List<ChangeTracker> getIssueModifications() {
+    public Set<ChangeTracker> getIssueModifications() {
         return issueModifications;
     }
 
-    public void setIssueModifications(List<ChangeTracker> issueModifications) {
+    public void setIssueModifications(Set<ChangeTracker> issueModifications) {
         this.issueModifications = issueModifications;
     }
 
