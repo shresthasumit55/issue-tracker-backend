@@ -20,6 +20,7 @@ public class ProjectRestService {
     }
 
     @RequestMapping(value = "/projects", method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<List<Project>> getAllProjects(){
         return new ResponseEntity(projectService.getAllProjects(), HttpStatus.OK);
     }
@@ -30,6 +31,7 @@ public class ProjectRestService {
     }
 
     @RequestMapping(value = "/projects", method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Project> postProjects(@RequestBody Project project){
         projectService.save(project);
         return new ResponseEntity(HttpStatus.OK);

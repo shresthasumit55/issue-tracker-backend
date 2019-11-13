@@ -1,5 +1,7 @@
 package edu.baylor.cs.se.hibernate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -20,6 +22,7 @@ public class Role {
     @Column
     private String description;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private List<UserRoleMapping> availableRoles;
 

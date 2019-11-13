@@ -51,6 +51,9 @@ public class UserRoleMapping {
         this.project = project;
     }
 
+    public UserRoleMapping() {
+    }
+
     public UserRoleMapping(User user) {
         this.user = user;
     }

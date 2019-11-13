@@ -1,5 +1,6 @@
 package edu.baylor.cs.se.hibernate.rest;
 
+import edu.baylor.cs.se.hibernate.dto.UserDto;
 import edu.baylor.cs.se.hibernate.model.User;
 import edu.baylor.cs.se.hibernate.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +29,9 @@ public class UserRestService {
         return new ResponseEntity(userService.getUserById(id), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public ResponseEntity<User> postUsers(@RequestBody User user){
-        userService.save(user);
-        return new ResponseEntity(HttpStatus.OK);
+    @RequestMapping(value = "/users", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<User> postUsers(@RequestBody UserDto user){
+        return new ResponseEntity(userService.save(user), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/users/update", method = RequestMethod.PUT)

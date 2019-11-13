@@ -30,6 +30,7 @@ public class IssueRestService {
     }
 
     @RequestMapping(value = "/issues", method = RequestMethod.POST)
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Issue> postIssues(@RequestBody Issue issue){
         issueService.save(issue);
         return new ResponseEntity(HttpStatus.OK);

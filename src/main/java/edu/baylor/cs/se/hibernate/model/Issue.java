@@ -50,6 +50,9 @@ public class Issue {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "issue")
     private Set<ChangeTracker> trackingHistory;
 
+    public Issue() {
+    }
+
     public Long getId() {
         return id;
     }
