@@ -1,5 +1,6 @@
 package edu.baylor.cs.se.hibernate.rest;
 
+import edu.baylor.cs.se.hibernate.dto.IssueDto;
 import edu.baylor.cs.se.hibernate.model.Issue;
 import edu.baylor.cs.se.hibernate.services.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,9 @@ public class IssueRestService {
         return new ResponseEntity(issueService.getIssueById(id), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/issues", method = RequestMethod.POST)
-    @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Issue> postIssues(@RequestBody Issue issue){
-        issueService.save(issue);
-        return new ResponseEntity(HttpStatus.OK);
+    @RequestMapping(value = "/issues", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Issue> postIssues(@RequestBody IssueDto issue){
+        return new ResponseEntity(issueService.save(issue), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/issues/update", method = RequestMethod.PUT)
