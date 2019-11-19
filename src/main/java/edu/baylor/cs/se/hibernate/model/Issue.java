@@ -16,6 +16,9 @@ public class Issue {
     @Column
     private String name;
 
+    @Column
+    private String description;
+
     @Enumerated
     private IssueType issueType;
 
@@ -156,4 +159,14 @@ public class Issue {
     public void setTrackingHistory(Set<ChangeTracker> trackingHistory) {
         this.trackingHistory = trackingHistory;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
 }

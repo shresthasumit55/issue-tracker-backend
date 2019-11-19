@@ -1,5 +1,6 @@
 package edu.baylor.cs.se.hibernate.rest;
 
+import edu.baylor.cs.se.hibernate.dto.ProjectDto;
 import edu.baylor.cs.se.hibernate.model.Project;
 import edu.baylor.cs.se.hibernate.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,6 @@ public class ProjectRestService {
     }
 
     @RequestMapping(value = "/projects", method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<List<Project>> getAllProjects(){
         return new ResponseEntity(projectService.getAllProjects(), HttpStatus.OK);
     }
@@ -30,11 +30,9 @@ public class ProjectRestService {
         return new ResponseEntity(projectService.getProjectById(id), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/projects", method = RequestMethod.POST)
-    @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<Project> postProjects(@RequestBody Project project){
-        projectService.save(project);
-        return new ResponseEntity(HttpStatus.OK);
+    @RequestMapping(value = "/projects", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Project> postProjects(@RequestBody ProjectDto project){
+        return new ResponseEntity(projectService.save(project),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/projects/update", method = RequestMethod.PUT)

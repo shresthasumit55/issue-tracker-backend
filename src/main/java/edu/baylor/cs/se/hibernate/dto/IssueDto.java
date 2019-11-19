@@ -34,6 +34,8 @@ public class IssueDto {
 
     private Set<ChangeTracker> trackingHistory;
 
+    private String description;
+
 
     public IssueDto(){
 
@@ -140,6 +142,14 @@ public class IssueDto {
 
     public void setTrackingHistory(Set<ChangeTracker> trackingHistory) {
         this.trackingHistory = trackingHistory;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

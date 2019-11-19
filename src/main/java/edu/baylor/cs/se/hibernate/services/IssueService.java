@@ -32,6 +32,7 @@ public class IssueService {
         issue.setDueDate(issueDto.getCreatedDate());
         issue.setLastModifiedDate(issueDto.getLastModifiedDate());
         issue.setStatus(issueDto.getStatus());
+        issue.setDescription(issueDto.getDescription());
 
 
         issue.setProject(issueDto.getProject());
