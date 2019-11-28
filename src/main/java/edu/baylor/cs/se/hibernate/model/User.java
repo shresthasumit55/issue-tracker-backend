@@ -6,13 +6,15 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-
 @Entity
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue
@@ -27,27 +29,55 @@ public class User {
     @Column
     private String lastName;
 
-    @ManyToMany(mappedBy = "members", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Project> projectsInvolved;
+    @ManyToMany(mappedBy = "members", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private Set<Project> projectsInvolved = new HashSet<>();
 
     @Column(unique = true)
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "must contain valid email address")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
     private String email;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
-    private Set<UserRoleMapping> availableRoles;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private Set<UserRoleMapping> availableRoles = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "creator")
-    private Set<Issue> createdIssues;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private Set<Issue> createdIssues = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "assignee")
-    private Set<Issue> assignedIssues;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "assignee")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private Set<Issue> assignedIssues = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<Comment> postedComments;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private Set<Comment> postedComments = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "modifiedBy")
-    private Set<ChangeTracker> issueModifications;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "modifiedBy")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private Set<ChangeTracker> issueModifications = new HashSet<>();
 
 
     public User() {

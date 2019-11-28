@@ -2,17 +2,20 @@ package edu.baylor.cs.se.hibernate.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-public class Project {
+public class Project implements Serializable {
 
     @Id
     @GeneratedValue
@@ -30,20 +33,29 @@ public class Project {
     @Column
     private String description;
 
-    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "PROJECT_USER",
             joinColumns = { @JoinColumn(name = "PROJECT_ID", referencedColumnName = "ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_ID", referencedColumnName = "ID") })
-    private Set<User> members;
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private Set<User> members = new HashSet<User>();
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
-    private Set<UserRoleMapping> availableRoles;
+    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY)
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private Set<UserRoleMapping> availableRoles = new HashSet<>();
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
-    private Set<Issue> issues;
+    @OneToMany(mappedBy = "project",fetch = FetchType.LAZY)
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private Set<Issue> issues = new HashSet<>();
 
     public Project() {
     }

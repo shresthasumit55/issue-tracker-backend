@@ -1,14 +1,19 @@
 package edu.baylor.cs.se.hibernate.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Role {
+public class Role implements Serializable {
 
     @Id
     @GeneratedValue
@@ -24,6 +29,10 @@ public class Role {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
     private List<UserRoleMapping> availableRoles;
 
 

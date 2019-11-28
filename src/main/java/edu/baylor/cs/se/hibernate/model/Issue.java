@@ -1,13 +1,16 @@
 package edu.baylor.cs.se.hibernate.model;
 
-import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+import java.util.*;
 
 @Entity
-public class Issue {
+public class Issue implements Serializable {
 
     @Id
     @GeneratedValue
@@ -38,20 +41,40 @@ public class Issue {
     private Status status;
 
     @ManyToOne
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
     private Project project;
 
     @ManyToOne
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
     private User creator;
 
     @ManyToOne
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
     private User assignee;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "issue")
-    private List<Comment> comments;
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private List<Comment> comments = new ArrayList<>();
 
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "issue")
-    private Set<ChangeTracker> trackingHistory;
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private Set<ChangeTracker> trackingHistory = new HashSet<>();
 
     public Issue() {
     }
