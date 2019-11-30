@@ -12,27 +12,23 @@ public class IssueDto {
 
     private String name;
 
-    private IssueType issueType;
+    private String type;
 
-    private PriorityLevel priorityLevel;
+    private String priorityLevel;
 
     private Date createdDate;
 
-    private Date dueDate;
+    private String dueDate;
 
     private Date lastModifiedDate;
 
-    private Status status;
+    private String status;
 
-    private Project project;
+    private Long project;
 
-    private User creator;
+    private Long creator;
 
-    private User assignee;
-
-    private List<Comment> comments;
-
-    private Set<ChangeTracker> trackingHistory;
+    private Long assignee;
 
     private String description;
 
@@ -40,6 +36,7 @@ public class IssueDto {
     public IssueDto(){
 
     }
+
     public Long getId() {
         return id;
     }
@@ -56,19 +53,19 @@ public class IssueDto {
         this.name = name;
     }
 
-    public IssueType getIssueType() {
-        return issueType;
+    public String getType() {
+        return type;
     }
 
-    public void setIssueType(IssueType issueType) {
-        this.issueType = issueType;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public PriorityLevel getPriorityLevel() {
+    public String getPriorityLevel() {
         return priorityLevel;
     }
 
-    public void setPriorityLevel(PriorityLevel priorityLevel) {
+    public void setPriorityLevel(String priorityLevel) {
         this.priorityLevel = priorityLevel;
     }
 
@@ -80,11 +77,11 @@ public class IssueDto {
         this.createdDate = createdDate;
     }
 
-    public Date getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -96,52 +93,36 @@ public class IssueDto {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Project getProject() {
+    public Long getProject() {
         return project;
     }
 
-    public void setProject(Project project) {
+    public void setProject(Long project) {
         this.project = project;
     }
 
-    public User getCreator() {
+    public Long getCreator() {
         return creator;
     }
 
-    public void setCreator(User creator) {
+    public void setCreator(Long creator) {
         this.creator = creator;
     }
 
-    public User getAssignee() {
+    public Long getAssignee() {
         return assignee;
     }
 
-    public void setAssignee(User assignee) {
+    public void setAssignee(Long assignee) {
         this.assignee = assignee;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public Set<ChangeTracker> getTrackingHistory() {
-        return trackingHistory;
-    }
-
-    public void setTrackingHistory(Set<ChangeTracker> trackingHistory) {
-        this.trackingHistory = trackingHistory;
     }
 
     public String getDescription() {
@@ -151,5 +132,4 @@ public class IssueDto {
     public void setDescription(String description) {
         this.description = description;
     }
-
 }

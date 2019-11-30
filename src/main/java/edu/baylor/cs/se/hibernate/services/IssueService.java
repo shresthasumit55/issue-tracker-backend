@@ -2,19 +2,19 @@ package edu.baylor.cs.se.hibernate.services;
 
 import edu.baylor.cs.se.hibernate.dao.CommentDao;
 import edu.baylor.cs.se.hibernate.dao.IssueDao;
+import edu.baylor.cs.se.hibernate.dao.ProjectDao;
 import edu.baylor.cs.se.hibernate.dao.UserDao;
 import edu.baylor.cs.se.hibernate.dto.ChangeAssigneeDto;
 import edu.baylor.cs.se.hibernate.dto.ChangeStatusDto;
 import edu.baylor.cs.se.hibernate.dto.CommentDto;
 import edu.baylor.cs.se.hibernate.dto.IssueDto;
-import edu.baylor.cs.se.hibernate.model.Comment;
-import edu.baylor.cs.se.hibernate.model.Issue;
-import edu.baylor.cs.se.hibernate.model.Status;
-import edu.baylor.cs.se.hibernate.model.User;
+import edu.baylor.cs.se.hibernate.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -31,28 +31,41 @@ public class IssueService {
     @Autowired
     CommentDao commentDao;
 
+    @Autowired
+    ProjectDao projectDao;
+
+
+
 
     public Issue save(IssueDto issueDto) {
 
-        Issue issue = new Issue();
-        issue.setName(issueDto.getName());
-        issue.setIssueType(issueDto.getIssueType());
-        issue.setPriorityLevel(issueDto.getPriorityLevel());
-        issue.setCreatedDate(issueDto.getCreatedDate());
-        issue.setDueDate(issueDto.getCreatedDate());
-        issue.setLastModifiedDate(issueDto.getLastModifiedDate());
-        issue.setStatus(issueDto.getStatus());
-        issue.setDescription(issueDto.getDescription());
+        try {
 
+            Issue issue = new Issue();
+            issue.setName(issueDto.getName());
+            issue.setIssueType(IssueType.valueOf(issueDto.getType()));
+            issue.setPriorityLevel(PriorityLevel.valueOf(issueDto.getPriorityLevel()));
+            issue.setCreatedDate(new Date());
+            issue.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse(issueDto.getDueDate()));
+            issue.setLastModifiedDate(new Date());
+            issue.setStatus(Status.NEW);
+            issue.setDescription(issueDto.getDescription());
 
-        issue.setProject(issueDto.getProject());
-        issue.setCreator(issueDto.getCreator());
-        issue.setAssignee(issueDto.getAssignee());
-        issue.setComments(issueDto.getComments());
-        issue.setTrackingHistory(issueDto.getTrackingHistory());
+            Project project = projectDao.getProjectById(issueDto.getProject());
+            issue.setProject(project);
 
-        issueDao.save(issue);
-        return issue;
+            User creator = userDao.getUserById(issueDto.getCreator());
+            issue.setCreator(creator);
+
+            User assignee = userDao.getUserById(issueDto.getAssignee());
+            issue.setAssignee(assignee);
+
+            issueDao.save(issue);
+            return issue;
+        }catch(ParseException e){
+            System.out.println("Date cannot be parsed");
+            return null;
+        }
 
     }
 
