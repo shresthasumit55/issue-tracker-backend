@@ -1,6 +1,7 @@
 package edu.baylor.cs.se.hibernate.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -21,10 +22,6 @@ public class Comment implements Serializable {
     private String messageText;
 
     @ManyToOne
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
-    @JsonIdentityReference(alwaysAsId=true)
     private User user;
 
     @ManyToOne
@@ -35,6 +32,7 @@ public class Comment implements Serializable {
     private Issue issue;
 
     @Column
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date date;
 
     public Comment() {

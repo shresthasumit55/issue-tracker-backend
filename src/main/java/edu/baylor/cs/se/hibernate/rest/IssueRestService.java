@@ -1,6 +1,10 @@
 package edu.baylor.cs.se.hibernate.rest;
 
+import edu.baylor.cs.se.hibernate.dto.ChangeAssigneeDto;
+import edu.baylor.cs.se.hibernate.dto.ChangeStatusDto;
+import edu.baylor.cs.se.hibernate.dto.CommentDto;
 import edu.baylor.cs.se.hibernate.dto.IssueDto;
+import edu.baylor.cs.se.hibernate.model.Comment;
 import edu.baylor.cs.se.hibernate.model.Issue;
 import edu.baylor.cs.se.hibernate.services.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +49,28 @@ public class IssueRestService {
     public ResponseEntity deleteIssues(@PathVariable("id") Long id) {
         issueService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/change-assignee", method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity changeAssignee(@RequestBody ChangeAssigneeDto changeAssigneeDto){
+        issueService.changeAssignee(changeAssigneeDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/change-status", method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity changeAssignee(@RequestBody ChangeStatusDto changeStatusDto){
+        issueService.changeStatus(changeStatusDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/comment", method = RequestMethod.POST, consumes = "application/json")
+    public ResponseEntity postComments(@RequestBody CommentDto commentDto){
+        issueService.postComment(commentDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/issue/comment/{id}", method = RequestMethod.GET)
+    public ResponseEntity<List<Comment>> getCommentsForIssue(@PathVariable("id") Long issueId){
+        return new ResponseEntity(issueService.getCommentsByIssue(issueId), HttpStatus.OK);
     }
 }

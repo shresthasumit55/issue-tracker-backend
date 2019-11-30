@@ -1,6 +1,8 @@
 package edu.baylor.cs.se.hibernate.dao;
 
+import edu.baylor.cs.se.hibernate.dto.UserDto;
 import edu.baylor.cs.se.hibernate.model.Issue;
+import edu.baylor.cs.se.hibernate.model.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -26,6 +28,7 @@ public class IssueDao {
         em.remove(issue);
 
     }
+
 
     public void save(Issue issue) {
         em.persist(issue);

@@ -22,10 +22,13 @@ public class Issue implements Serializable {
     @Column
     private String description;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
     private IssueType issueType;
 
-    @Enumerated
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
     private PriorityLevel priorityLevel;
 
     @Column
@@ -37,7 +40,8 @@ public class Issue implements Serializable {
     @Column
     private Date lastModifiedDate;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
     private Status status;
 
     @ManyToOne
@@ -48,17 +52,9 @@ public class Issue implements Serializable {
     private Project project;
 
     @ManyToOne
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
-    @JsonIdentityReference(alwaysAsId=true)
     private User creator;
 
     @ManyToOne
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
-    @JsonIdentityReference(alwaysAsId=true)
     private User assignee;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "issue")

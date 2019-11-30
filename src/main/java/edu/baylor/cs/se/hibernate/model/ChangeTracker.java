@@ -21,7 +21,7 @@ public class ChangeTracker implements Serializable {
     @Column
     private Date modifiedDate;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private ChangeType changeType;
 
     @ManyToOne

@@ -4,7 +4,6 @@ public class ProjectDto {
 
     private Long id;
 
-
     private String key_id;
 
     private String name;
