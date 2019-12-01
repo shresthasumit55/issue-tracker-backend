@@ -1,5 +1,6 @@
 package edu.baylor.cs.se.hibernate.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -32,9 +33,11 @@ public class Issue implements Serializable {
     private PriorityLevel priorityLevel;
 
     @Column
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date createdDate;
 
     @Column
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date dueDate;
 
     @Column
@@ -45,10 +48,6 @@ public class Issue implements Serializable {
     private Status status;
 
     @ManyToOne
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
-    @JsonIdentityReference(alwaysAsId=true)
     private Project project;
 
     @ManyToOne
