@@ -6,6 +6,8 @@ public class ChangeAssigneeDto {
 
     private Long issueId;
 
+    private Long sessionUserId;
+
     public ChangeAssigneeDto() {
     }
 
@@ -23,5 +25,13 @@ public class ChangeAssigneeDto {
 
     public void setIssueId(Long issueId) {
         this.issueId = issueId;
+    }
+
+    public Long getSessionUserId() {
+        return sessionUserId;
+    }
+
+    public void setSessionUserId(Long sessionUserId) {
+        this.sessionUserId = sessionUserId;
     }
 }

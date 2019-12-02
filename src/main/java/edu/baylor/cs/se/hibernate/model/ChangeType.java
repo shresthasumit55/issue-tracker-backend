@@ -5,6 +5,7 @@ public enum ChangeType {
     COMMENT,
     REASSIGNMENT,
     ISSUE_CREATION,
-    ISSUE_DELETION
+    ISSUE_DELETION,
+    STATUS_CHANGE
 
 }

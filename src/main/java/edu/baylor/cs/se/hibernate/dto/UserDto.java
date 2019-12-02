@@ -4,11 +4,9 @@ public class UserDto {
 
     private Long id;
 
-
     private String firstname;
 
     private String middleName;
-
 
     private String lastName;
 

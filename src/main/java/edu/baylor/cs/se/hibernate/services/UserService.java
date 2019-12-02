@@ -63,4 +63,21 @@ public class UserService {
         return user;
     }
 
+    public User updateUserRoles(UserDto userDto){
+        User user = userDao.getUserById(userDto.getId());
+        Project project = projectDao.getProjectById(userDto.getProjectId());
+        Role role = roleDao.getRoleById(userDto.getRoleId());
+
+        Set<Project> projectSet = user.getProjectsInvolved();
+        projectSet.add(project);
+
+        project.getMembers().add(user);
+
+        Set<UserRoleMapping> userRoleMappings = user.getAvailableRoles();
+        userRoleMappings.add(new UserRoleMapping(user,role,project));
+
+        userDao.update(user);
+        return user;
+    }
+
 }

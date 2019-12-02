@@ -45,4 +45,9 @@ public class UserRestService {
         userService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/editroles", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<User> editUserRoles(@RequestBody UserDto user){
+        return new ResponseEntity(userService.updateUserRoles(user), HttpStatus.OK);
+    }
 }

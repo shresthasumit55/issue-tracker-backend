@@ -1,9 +1,6 @@
 package edu.baylor.cs.se.hibernate.services;
 
-import edu.baylor.cs.se.hibernate.dao.CommentDao;
-import edu.baylor.cs.se.hibernate.dao.IssueDao;
-import edu.baylor.cs.se.hibernate.dao.ProjectDao;
-import edu.baylor.cs.se.hibernate.dao.UserDao;
+import edu.baylor.cs.se.hibernate.dao.*;
 import edu.baylor.cs.se.hibernate.dto.ChangeAssigneeDto;
 import edu.baylor.cs.se.hibernate.dto.ChangeStatusDto;
 import edu.baylor.cs.se.hibernate.dto.CommentDto;
@@ -34,13 +31,12 @@ public class IssueService {
     @Autowired
     ProjectDao projectDao;
 
-
-
+    @Autowired
+    ChangeTrackerDao changeTrackerDao;
 
     public Issue save(IssueDto issueDto) {
 
         try {
-
             Issue issue = new Issue();
             issue.setName(issueDto.getName());
             issue.setIssueType(IssueType.valueOf(issueDto.getType()));
@@ -59,8 +55,14 @@ public class IssueService {
 
             User assignee = userDao.getUserById(issueDto.getAssignee());
             issue.setAssignee(assignee);
-
             issueDao.save(issue);
+
+            ChangeTracker changeTracker = new ChangeTracker();
+            changeTracker.setIssue(issue);
+            changeTracker.setChangeType(ChangeType.ISSUE_CREATION);
+            changeTracker.setModifiedDate(new Date());
+            changeTracker.setModifiedBy(creator);
+            changeTrackerDao.save(changeTracker);
             return issue;
         }catch(ParseException e){
             System.out.println("Date cannot be parsed");
@@ -88,14 +90,29 @@ public class IssueService {
     public void changeAssignee(ChangeAssigneeDto changeAssigneeDto){
         User user = userDao.getUserById(changeAssigneeDto.getUserId());
         Issue issue = issueDao.getIssueById(changeAssigneeDto.getIssueId());
+        User previousUser = issue.getAssignee();
         issue.setAssignee(user);
         issueDao.update(issue);
+
+        User sessionUser = userDao.getUserById(changeAssigneeDto.getSessionUserId());
+
+        ChangeTracker changeTracker = createChangeTracker(issue,ChangeType.REASSIGNMENT,sessionUser);
+        changeTracker.setNewUser(user);
+        changeTracker.setPreviousUser(previousUser);
+        changeTrackerDao.save(changeTracker);
     }
 
     public void changeStatus(ChangeStatusDto changeStatusDto){
         Issue issue = issueDao.getIssueById(changeStatusDto.getIssueId());
         issue.setStatus(Status.valueOf(changeStatusDto.getStatus()));
         issueDao.update(issue);
+
+        User sessionUser = userDao.getUserById(changeStatusDto.getSessionUserId());
+
+
+        ChangeTracker changeTracker = createChangeTracker(issue,ChangeType.STATUS_CHANGE,sessionUser);
+        changeTracker.setNewStatus(issue.getStatus());
+        changeTrackerDao.save(changeTracker);
     }
 
     public void postComment(CommentDto commentDto){
@@ -108,11 +125,24 @@ public class IssueService {
         comment.setMessageText(commentDto.getComment());
         comment.setUser(user);
         commentDao.save(comment);
+
+        ChangeTracker changeTracker = createChangeTracker(issue,ChangeType.COMMENT,user);
+        changeTracker.setComment(comment);
+        changeTrackerDao.save(changeTracker);
+
     }
 
     public List<Comment> getCommentsByIssue(Long issueId){
         return commentDao.getCommentsByIssue(issueId);
     }
 
+    private ChangeTracker createChangeTracker(Issue issue,ChangeType changeType, User user){
+        ChangeTracker changeTracker = new ChangeTracker();
+        changeTracker.setIssue(issue);
+        changeTracker.setChangeType(changeType);
+        changeTracker.setModifiedDate(new Date());
+        changeTracker.setModifiedBy(user);
+        return changeTracker;
+    }
 
 }

@@ -38,6 +38,30 @@ public class ChangeTracker implements Serializable {
     @JsonIdentityReference(alwaysAsId=true)
     private User modifiedBy;
 
+    @ManyToOne
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private Comment comment;
+
+    @ManyToOne
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private User previousUser;
+
+    @ManyToOne
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
+    private User newUser;
+
+    @Enumerated(EnumType.STRING)
+    private Status newStatus;
+
     public ChangeTracker() {
     }
 
@@ -81,7 +105,37 @@ public class ChangeTracker implements Serializable {
         this.modifiedBy = modifiedBy;
     }
 
+    public Comment getComment() {
+        return comment;
+    }
 
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
+
+    public User getPreviousUser() {
+        return previousUser;
+    }
+
+    public void setPreviousUser(User previousUser) {
+        this.previousUser = previousUser;
+    }
+
+    public User getNewUser() {
+        return newUser;
+    }
+
+    public void setNewUser(User newUser) {
+        this.newUser = newUser;
+    }
+
+    public Status getNewStatus() {
+        return newStatus;
+    }
+
+    public void setNewStatus(Status newStatus) {
+        this.newStatus = newStatus;
+    }
 }
 
 

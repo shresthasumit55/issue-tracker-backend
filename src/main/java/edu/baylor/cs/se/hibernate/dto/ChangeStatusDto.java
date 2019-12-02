@@ -6,6 +6,8 @@ public class ChangeStatusDto {
 
     private String status;
 
+    private Long sessionUserId;
+
     public ChangeStatusDto() {
     }
 
@@ -23,5 +25,13 @@ public class ChangeStatusDto {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getSessionUserId() {
+        return sessionUserId;
+    }
+
+    public void setSessionUserId(Long sessionUserId) {
+        this.sessionUserId = sessionUserId;
     }
 }
