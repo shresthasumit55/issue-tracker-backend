@@ -6,6 +6,7 @@ import edu.baylor.cs.se.hibernate.dto.ChangeStatusDto;
 import edu.baylor.cs.se.hibernate.dto.CommentDto;
 import edu.baylor.cs.se.hibernate.dto.IssueDto;
 import edu.baylor.cs.se.hibernate.model.*;
+import org.apache.log4j.Logger;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,8 @@ public class IssueService {
     @Autowired
     ChangeTrackerDao changeTrackerDao;
 
+    private static final org.apache.log4j.Logger logger = Logger.getLogger(IssueService.class);
+
     public Issue save(IssueDto issueDto) {
 
         try {
@@ -59,6 +62,8 @@ public class IssueService {
             User assignee = userDao.getUserById(issueDto.getAssignee());
             issue.setAssignee(assignee);
             issueDao.save(issue);
+            logger.info("New Issue saved. Issue Id: "+issue.getId().toString());
+
 
             ChangeTracker changeTracker = new ChangeTracker();
             changeTracker.setIssue(issue);
@@ -66,6 +71,8 @@ public class IssueService {
             changeTracker.setModifiedDate(new Date());
             changeTracker.setModifiedBy(creator);
             changeTrackerDao.save(changeTracker);
+            logger.info("Change save in Change Tracker for Issue Id: "+issue.getId().toString());
+
             return issue;
         }catch(ParseException e){
             System.out.println("Date cannot be parsed");
@@ -76,10 +83,12 @@ public class IssueService {
 
     public void delete(Long id){
         issueDao.delete(id);
+        logger.info("Issue with id: "+id.toString() + " deleted");
     }
 
     public void update(Issue issue) {
         issueDao.update(issue);
+        logger.info("Issue with id: "+issue.getId().toString() + " updated.");
     }
 
     public List<Issue> getAllIssues(){
@@ -101,12 +110,15 @@ public class IssueService {
         issue.setAssignee(user);
         issueDao.update(issue);
 
+        logger.info("Assignee updated for Issue with id: "+issue.getId().toString() );
+
         User sessionUser = userDao.getUserById(changeAssigneeDto.getSessionUserId());
 
         ChangeTracker changeTracker = createChangeTracker(issue,ChangeType.REASSIGNMENT,sessionUser);
         changeTracker.setNewUser(user);
         changeTracker.setPreviousUser(previousUser);
         changeTrackerDao.save(changeTracker);
+        logger.info("Assignee update logged in change tracker for IssueID: "+issue.getId().toString() );
     }
 
     public void changeStatus(ChangeStatusDto changeStatusDto){
@@ -114,12 +126,15 @@ public class IssueService {
         issue.setStatus(Status.valueOf(changeStatusDto.getStatus()));
         issueDao.update(issue);
 
+        logger.info("Status updated for Issue with id: "+issue.getId().toString() );
+
         User sessionUser = userDao.getUserById(changeStatusDto.getSessionUserId());
 
 
         ChangeTracker changeTracker = createChangeTracker(issue,ChangeType.STATUS_CHANGE,sessionUser);
         changeTracker.setNewStatus(issue.getStatus());
         changeTrackerDao.save(changeTracker);
+        logger.info("Status update logged in change tracker for IssueID: "+issue.getId().toString());
     }
 
     public void postComment(CommentDto commentDto, MultipartFile attach){
@@ -140,10 +155,12 @@ public class IssueService {
 
             }
         commentDao.save(comment);
+        logger.info("Comment added for Issue with id: "+issue.getId().toString() );
 
         ChangeTracker changeTracker = createChangeTracker(issue,ChangeType.COMMENT,user);
         changeTracker.setComment(comment);
         changeTrackerDao.save(changeTracker);
+            logger.info("Comment addition logged in change tracker for IssueID: "+issue.getId().toString());
         }catch (IOException e) {
             System.out.println("Cannot encode attachment");
         }

@@ -8,6 +8,7 @@ import edu.baylor.cs.se.hibernate.model.Project;
 import edu.baylor.cs.se.hibernate.model.Role;
 import edu.baylor.cs.se.hibernate.model.User;
 import edu.baylor.cs.se.hibernate.model.UserRoleMapping;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,8 @@ public class UserService {
 
     @Autowired
     RoleDao roleDao;
+
+    private static final Logger logger = Logger.getLogger(UserService.class);
 
 
 
@@ -51,12 +54,22 @@ public class UserService {
         user.setAvailableRoles(roleMappingSet);
 
         userDao.save(user);
+
+        logger.info("New User Added. user Id: "+user.getId().toString());
         return user;
     }
 
-    public void delete(Long id) { userDao.delete(id);}
+    public void delete(Long id)
+    {
+        userDao.delete(id);
+        logger.info("User with id: "+id.toString() + " deleted");
+    }
 
-    public void update(User user) { userDao.update(user);}
+    public void update(User user)
+    {
+        userDao.update(user);
+        logger.info("User with id: "+user.getId().toString() + " updated.");
+    }
 
     public List<User> getAllUsers() { return userDao.getAllUsers();}
 
@@ -79,6 +92,7 @@ public class UserService {
         userRoleMappings.add(new UserRoleMapping(user,role,project));
 
         userDao.update(user);
+        logger.info("User role updated for user with id "+user.getId().toString());
         return user;
     }
 
