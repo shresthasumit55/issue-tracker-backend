@@ -31,8 +31,8 @@ INSERT INTO role(name,description) VALUES('Developer','Solves issues created in 
 INSERT INTO role(name,description) VALUES('Tester','Verifies the solution made by the developer');
 INSERT INTO role(name,description) VALUES('Business Analyst','Creates issues in a Project');
 
-INSERT INTO user(email, firstname, lastname) VALUES ('pratistha.shrestha@email.com','Pratistha','Shrestha');
-INSERT INTO user(email, firstname, lastname) VALUES ('sumit.shrestha@email.com','Sumit','Shrestha');
+INSERT INTO user(email, firstname, last_name) VALUES ('pratistha.shrestha@email.com','Pratistha','Shrestha');
+INSERT INTO user(email, firstname, last_name) VALUES ('sumit.shrestha@email.com','Sumit','Shrestha');
 
 
 
