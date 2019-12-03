@@ -86,6 +86,10 @@ public class IssueService {
         return issueDao.getAllIssues();
     }
 
+    public List<ChangeTracker> getChangeList(){
+        return changeTrackerDao.getChangeList();
+    }
+
     public Issue getIssueById(Long id){
         return issueDao.getIssueById(id);
     }

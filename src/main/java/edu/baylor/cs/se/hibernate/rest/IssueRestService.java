@@ -4,6 +4,7 @@ import edu.baylor.cs.se.hibernate.dto.ChangeAssigneeDto;
 import edu.baylor.cs.se.hibernate.dto.ChangeStatusDto;
 import edu.baylor.cs.se.hibernate.dto.CommentDto;
 import edu.baylor.cs.se.hibernate.dto.IssueDto;
+import edu.baylor.cs.se.hibernate.model.ChangeTracker;
 import edu.baylor.cs.se.hibernate.model.Comment;
 import edu.baylor.cs.se.hibernate.model.Issue;
 import edu.baylor.cs.se.hibernate.services.IssueService;
@@ -95,5 +96,10 @@ public class IssueRestService {
         header.set("Content-Disposition", "attachment; filename=" + comment.getFileName());
 
         return new ResponseEntity<>(comment.getAttachment(), header, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/changeTracker", method = RequestMethod.GET)
+    public ResponseEntity<List<ChangeTracker>> getChangeList(){
+        return new ResponseEntity(issueService.getChangeList(), HttpStatus.OK);
     }
 }

@@ -25,17 +25,9 @@ public class ChangeTracker implements Serializable {
     private ChangeType changeType;
 
     @ManyToOne
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
-    @JsonIdentityReference(alwaysAsId=true)
     private Issue issue;
 
     @ManyToOne
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id")
-    @JsonIdentityReference(alwaysAsId=true)
     private User modifiedBy;
 
     @ManyToOne

@@ -2,6 +2,7 @@ package edu.baylor.cs.se.hibernate.dao;
 
 import edu.baylor.cs.se.hibernate.model.ChangeTracker;
 import edu.baylor.cs.se.hibernate.model.Comment;
+import edu.baylor.cs.se.hibernate.model.Issue;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -26,6 +27,10 @@ public class ChangeTrackerDao {
         query.setParameter("issueId",issueId);
         return (List<ChangeTracker>) query.getResultList();
 
+    }
+
+    public List<ChangeTracker> getChangeList(){
+        return (List<ChangeTracker>) em.createQuery("SELECT i FROM ChangeTracker i").getResultList();
     }
 
 }

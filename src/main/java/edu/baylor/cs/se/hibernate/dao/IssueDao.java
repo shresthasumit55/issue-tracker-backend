@@ -23,6 +23,7 @@ public class IssueDao {
         return (List<Issue>) em.createQuery("SELECT i FROM Issue i").getResultList();
     }
 
+
     public void delete(Long id){
         Issue issue = getIssueById(id);
         em.remove(issue);
