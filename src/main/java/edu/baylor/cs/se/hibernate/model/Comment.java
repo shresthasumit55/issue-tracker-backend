@@ -35,6 +35,18 @@ public class Comment implements Serializable {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date date;
 
+    @Column
+    private String fileName;
+
+    @Column
+    private String contentType;
+
+    @Lob
+    @Column
+    private byte[] attachment;
+
+
+
     public Comment() {
     }
 
@@ -76,5 +88,29 @@ public class Comment implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public byte[] getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(byte[] attachment) {
+        this.attachment = attachment;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 }

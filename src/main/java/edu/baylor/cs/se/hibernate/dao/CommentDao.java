@@ -15,6 +15,10 @@ public class CommentDao {
     @PersistenceContext
     private EntityManager em;
 
+    public Comment getCommentById(Long id){
+        return em.find(Comment.class,id);
+    }
+
     public void save(Comment comment) {
         em.persist(comment);
     }

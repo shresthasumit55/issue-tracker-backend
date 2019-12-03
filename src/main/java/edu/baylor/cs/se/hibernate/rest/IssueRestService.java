@@ -8,10 +8,14 @@ import edu.baylor.cs.se.hibernate.model.Comment;
 import edu.baylor.cs.se.hibernate.model.Issue;
 import edu.baylor.cs.se.hibernate.services.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -63,14 +67,33 @@ public class IssueRestService {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/comment", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity postComments(@RequestBody CommentDto commentDto){
-        issueService.postComment(commentDto);
+    @RequestMapping(value = "/comment", method = RequestMethod.POST)
+    public ResponseEntity postComments(@RequestPart ("issueId") @Valid String issueId, @RequestPart ("comment") @Valid String comment,
+                                       @RequestPart ("userId") @Valid String userId, @RequestPart(required = false) MultipartFile attach){
+        issueService.postComment(new CommentDto(Long.valueOf(userId),Long.valueOf(issueId),comment),attach);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    /*
+    @RequestMapping(value = "/comment", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+    public ResponseEntity postComments(@RequestPart ("commentDto") @Valid CommentDto commentDto, @RequestPart("attach")MultipartFile file){
+        issueService.postComment(commentDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }*/
 
     @RequestMapping(value = "/issue/comment/{id}", method = RequestMethod.GET)
     public ResponseEntity<List<Comment>> getCommentsForIssue(@PathVariable("id") Long issueId){
         return new ResponseEntity(issueService.getCommentsByIssue(issueId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/attach/comment/{id}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getAttachForComment(@PathVariable("id") Long commentId){
+        Comment comment = issueService.getComment(commentId);
+        HttpHeaders header = new HttpHeaders();
+        header.setContentType(MediaType.valueOf(comment.getContentType()));
+        header.setContentLength(comment.getAttachment().length);
+        header.set("Content-Disposition", "attachment; filename=" + comment.getFileName());
+
+        return new ResponseEntity<>(comment.getAttachment(), header, HttpStatus.OK);
     }
 }

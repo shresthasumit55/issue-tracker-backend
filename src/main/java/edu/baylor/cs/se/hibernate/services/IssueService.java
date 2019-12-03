@@ -6,10 +6,13 @@ import edu.baylor.cs.se.hibernate.dto.ChangeStatusDto;
 import edu.baylor.cs.se.hibernate.dto.CommentDto;
 import edu.baylor.cs.se.hibernate.dto.IssueDto;
 import edu.baylor.cs.se.hibernate.model.*;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -115,25 +118,40 @@ public class IssueService {
         changeTrackerDao.save(changeTracker);
     }
 
-    public void postComment(CommentDto commentDto){
+    public void postComment(CommentDto commentDto, MultipartFile attach){
 
-        Issue issue = issueDao.getIssueById(commentDto.getIssueId());
-        User user = userDao.getUserById(commentDto.getUserId());
-        Comment comment = new Comment();
-        comment.setDate(new Date());
-        comment.setIssue(issue);
-        comment.setMessageText(commentDto.getComment());
-        comment.setUser(user);
+        try{
+            Issue issue = issueDao.getIssueById(commentDto.getIssueId());
+            User user = userDao.getUserById(commentDto.getUserId());
+            Comment comment = new Comment();
+            comment.setDate(new Date());
+            comment.setIssue(issue);
+            comment.setMessageText(commentDto.getComment());
+            comment.setUser(user);
+            if (attach != null) {
+                comment.setAttachment(Base64.encodeBase64(attach.getBytes()));
+                comment.setContentType(attach.getContentType());
+                comment.setFileName(attach.getOriginalFilename());
+
+
+            }
         commentDao.save(comment);
 
         ChangeTracker changeTracker = createChangeTracker(issue,ChangeType.COMMENT,user);
         changeTracker.setComment(comment);
         changeTrackerDao.save(changeTracker);
+        }catch (IOException e) {
+            System.out.println("Cannot encode attachment");
+        }
 
     }
 
     public List<Comment> getCommentsByIssue(Long issueId){
         return commentDao.getCommentsByIssue(issueId);
+    }
+
+    public Comment getComment(Long commentId){
+        return commentDao.getCommentById(commentId);
     }
 
     private ChangeTracker createChangeTracker(Issue issue,ChangeType changeType, User user){
