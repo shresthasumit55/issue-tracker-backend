@@ -7,6 +7,7 @@ import edu.baylor.cs.se.hibernate.dto.IssueDto;
 import edu.baylor.cs.se.hibernate.model.ChangeTracker;
 import edu.baylor.cs.se.hibernate.model.Comment;
 import edu.baylor.cs.se.hibernate.model.Issue;
+import edu.baylor.cs.se.hibernate.services.ChangeTrackerService;
 import edu.baylor.cs.se.hibernate.services.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class IssueRestService {
@@ -25,9 +27,14 @@ public class IssueRestService {
     private IssueService issueService;
 
     @Autowired
+    private ChangeTrackerService changeTrackerService;
+
+    @Autowired
     public IssueRestService(IssueService issueService) {
         this.issueService = issueService;
     }
+
+
 
     @RequestMapping(value = "/issues", method = RequestMethod.GET)
     public ResponseEntity<List<Issue>> getAllIssues(){
@@ -98,8 +105,8 @@ public class IssueRestService {
         return new ResponseEntity<>(comment.getAttachment(), header, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/changeTracker", method = RequestMethod.GET)
-    public ResponseEntity<List<ChangeTracker>> getChangeList(){
-        return new ResponseEntity(issueService.getChangeList(), HttpStatus.OK);
+    @RequestMapping(value = "/changeTracker/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Set<ChangeTracker>> getChangeList(@PathVariable("id") Long userId){
+        return new ResponseEntity(changeTrackerService.getChangesByUser(userId), HttpStatus.OK);
     }
 }
