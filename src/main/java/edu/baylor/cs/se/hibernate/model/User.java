@@ -3,6 +3,7 @@ package edu.baylor.cs.se.hibernate.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -28,6 +29,13 @@ public class User implements Serializable {
 
     @Column
     private String lastName;
+
+    @Column
+    @Type(type="text")
+    private String password;
+
+    @Column
+    private Boolean activeStatus;
 
     @ManyToMany(mappedBy = "members", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIdentityInfo(
@@ -181,5 +189,21 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(email);
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getActiveStatus() {
+        return activeStatus;
+    }
+
+    public void setActiveStatus(Boolean activeStatus) {
+        this.activeStatus = activeStatus;
     }
 }

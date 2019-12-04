@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -21,6 +22,14 @@ public class ProjectService {
 
     public Project save(ProjectDto projectDto)
     {
+
+        List<Project> existingProjects = projectDao.getAllProjects();
+        if (isDuplicateProjectKey(projectDto.getKey(),existingProjects)){
+            logger.info("Duplicate project key");
+            return null;
+        }
+
+
         Project project = new Project();
         project.setKey(projectDto.getKey());
         project.setName(projectDto.getName());
@@ -28,6 +37,10 @@ public class ProjectService {
         projectDao.save(project);
         logger.info("New Project saved. Project Id: "+project.getId().toString());
         return project;
+    }
+
+    public Project getProjectByKey(String key){
+        return projectDao.getProjectByKey(key);
     }
 
     public void delete(Long id){
@@ -46,5 +59,10 @@ public class ProjectService {
 
     public Project getProjectById(Long id){
         return projectDao.getProjectById(id);
+    }
+
+    public boolean isDuplicateProjectKey(String key, List<Project> projects){
+        return projects.stream().map(Project::getKey).collect(Collectors.toList()).contains(key);
+
     }
 }

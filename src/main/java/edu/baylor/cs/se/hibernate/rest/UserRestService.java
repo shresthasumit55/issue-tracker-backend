@@ -1,5 +1,6 @@
 package edu.baylor.cs.se.hibernate.rest;
 
+import edu.baylor.cs.se.hibernate.dto.LoginDto;
 import edu.baylor.cs.se.hibernate.dto.UserDto;
 import edu.baylor.cs.se.hibernate.model.User;
 import edu.baylor.cs.se.hibernate.services.UserService;
@@ -50,4 +51,11 @@ public class UserRestService {
     public ResponseEntity<User> editUserRoles(@RequestBody UserDto user){
         return new ResponseEntity(userService.updateUserRoles(user), HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<User> authenticate(@RequestBody LoginDto loginDto){
+        return new ResponseEntity(userService.authenticate(loginDto), HttpStatus.OK);
+    }
+
+
 }

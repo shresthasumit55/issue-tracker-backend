@@ -15,6 +15,12 @@ public class ProjectDto {
     public ProjectDto() {
     }
 
+    public ProjectDto(String key_id, String name, String description) {
+        this.key_id = key_id;
+        this.name = name;
+        this.description = description;
+    }
+
     public Long getId() {
         return id;
     }

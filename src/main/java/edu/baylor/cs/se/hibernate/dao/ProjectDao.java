@@ -22,10 +22,14 @@ public class ProjectDao {
         return (List<Project>) em.createQuery("SELECT i FROM Project i").getResultList();
     }
 
+    public Project getProjectByKey(String key){
+
+        return (Project) em.createQuery("SELECT i FROM Project i where i.key_id=:key").setParameter("key",key).getResultList().get(0);
+    }
+
     public void delete(Long id){
         Project project = getProjectById(id);
         em.remove(project);
-
     }
 
     public void save(Project project) {

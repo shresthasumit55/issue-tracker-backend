@@ -28,4 +28,8 @@ public class UserDao {
 
     public void update(User user) {em.merge(user);}
 
+    public User getUserByEmail(String email){
+        return (User) em.createQuery("SELECT i FROM User i where i.email=:email").setParameter("email",email).getResultList().get(0);
+    }
+
 }

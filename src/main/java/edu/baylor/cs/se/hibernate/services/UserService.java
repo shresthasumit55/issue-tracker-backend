@@ -3,12 +3,16 @@ package edu.baylor.cs.se.hibernate.services;
 import edu.baylor.cs.se.hibernate.dao.ProjectDao;
 import edu.baylor.cs.se.hibernate.dao.RoleDao;
 import edu.baylor.cs.se.hibernate.dao.UserDao;
+import edu.baylor.cs.se.hibernate.dto.LoginDto;
 import edu.baylor.cs.se.hibernate.dto.UserDto;
 import edu.baylor.cs.se.hibernate.model.Project;
 import edu.baylor.cs.se.hibernate.model.Role;
 import edu.baylor.cs.se.hibernate.model.User;
 import edu.baylor.cs.se.hibernate.model.UserRoleMapping;
+import edu.baylor.cs.se.hibernate.utils.Encryption;
 import org.apache.log4j.Logger;
+import org.jasypt.util.password.BasicPasswordEncryptor;
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +37,6 @@ public class UserService {
     private static final Logger logger = Logger.getLogger(UserService.class);
 
 
-
     public User save(UserDto userDto) {
         User user = new User();
         user.setFirstname(userDto.getFirstname());
@@ -52,6 +55,8 @@ public class UserService {
         Set<UserRoleMapping> roleMappingSet = new HashSet<>();
         roleMappingSet.add(roleMapping);
         user.setAvailableRoles(roleMappingSet);
+        user.setPassword(Encryption.encrypt("Company123"));
+        user.setActiveStatus(true);
 
         userDao.save(user);
 
@@ -78,6 +83,11 @@ public class UserService {
         return user;
     }
 
+    public User getUserByEmail(String email) {
+        User user =   userDao.getUserByEmail(email);
+        return user;
+    }
+
     public User updateUserRoles(UserDto userDto){
         User user = userDao.getUserById(userDto.getId());
         Project project = projectDao.getProjectById(userDto.getProjectId());
@@ -94,6 +104,27 @@ public class UserService {
         userDao.update(user);
         logger.info("User role updated for user with id "+user.getId().toString());
         return user;
+    }
+
+
+    public User authenticate(LoginDto loginDto){
+
+        User user = getUserByEmail(loginDto.getEmail());
+
+        if (user==null){
+            logger.error("User with the email could not be found");
+        }
+        String plainText = Encryption.decrypt(user.getPassword());
+        if (plainText.equals(loginDto.getPassword())){
+            logger.info("User authenticated Successfully");
+            return user;
+        }else{
+            logger.error("Password mismatch");
+            return null;
+        }
+
+
+
     }
 
 }
