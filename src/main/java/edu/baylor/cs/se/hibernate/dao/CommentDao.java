@@ -25,7 +25,7 @@ public class CommentDao {
 
     public List<Comment> getCommentsByIssue(Long issueId){
 
-        String hql = "Select i from Comment i where i.issue.id = :issueId";
+        String hql = "Select i from Comment i where i.issue.id = :issueId ORDER BY id DESC";
         Query query = em.createQuery(hql);
         query.setParameter("issueId",issueId);
         return (List<Comment>) query.getResultList();
