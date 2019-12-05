@@ -5,6 +5,8 @@ import edu.baylor.cs.se.hibernate.dto.ChangeAssigneeDto;
 import edu.baylor.cs.se.hibernate.dto.ChangeStatusDto;
 import edu.baylor.cs.se.hibernate.dto.CommentDto;
 import edu.baylor.cs.se.hibernate.dto.IssueDto;
+import edu.baylor.cs.se.hibernate.exception.InsertFailureException;
+import edu.baylor.cs.se.hibernate.exception.UpdateFailureException;
 import edu.baylor.cs.se.hibernate.model.*;
 import org.apache.log4j.Logger;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -40,7 +42,7 @@ public class IssueService {
 
     private static final org.apache.log4j.Logger logger = Logger.getLogger(IssueService.class);
 
-    public Issue save(IssueDto issueDto) {
+    public Issue save(IssueDto issueDto) throws InsertFailureException{
 
         try {
             Issue issue = new Issue();
@@ -75,70 +77,111 @@ public class IssueService {
 
             return issue;
         }catch(ParseException e){
-            System.out.println("Date cannot be parsed");
+            logger.error("Date cannot be parsed");
+            e.printStackTrace();
             return null;
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new InsertFailureException("Issue cannot be saved");
         }
 
     }
 
     public void delete(Long id){
-        issueDao.delete(id);
-        logger.info("Issue with id: "+id.toString() + " deleted");
+        try {
+            issueDao.delete(id);
+            logger.info("Issue with id: " + id.toString() + " deleted");
+        }catch(Exception e){
+            logger.error("Cannot perform delete");
+            e.printStackTrace();
+        }
     }
 
-    public void update(Issue issue) {
-        issueDao.update(issue);
-        logger.info("Issue with id: "+issue.getId().toString() + " updated.");
+    public void update(Issue issue) throws UpdateFailureException{
+        try {
+            issueDao.update(issue);
+            logger.info("Issue with id: " + issue.getId().toString() + " updated.");
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new UpdateFailureException("Cannot update issue");
+        }
     }
 
     public List<Issue> getAllIssues(){
-        return issueDao.getAllIssues();
+        try {
+            return issueDao.getAllIssues();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public List<ChangeTracker> getChangeList(){
-        return changeTrackerDao.getChangeList();
+        try {
+            return changeTrackerDao.getChangeList();
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Issue getIssueById(Long id){
-        return issueDao.getIssueById(id);
+        try {
+            return issueDao.getIssueById(id);
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void changeAssignee(ChangeAssigneeDto changeAssigneeDto){
-        User user = userDao.getUserById(changeAssigneeDto.getUserId());
-        Issue issue = issueDao.getIssueById(changeAssigneeDto.getIssueId());
-        User previousUser = issue.getAssignee();
-        issue.setAssignee(user);
-        issueDao.update(issue);
+        try {
+            User user = userDao.getUserById(changeAssigneeDto.getUserId());
+            Issue issue = issueDao.getIssueById(changeAssigneeDto.getIssueId());
+            User previousUser = issue.getAssignee();
+            issue.setAssignee(user);
+            issueDao.update(issue);
 
-        logger.info("Assignee updated for Issue with id: "+issue.getId().toString() );
+            logger.info("Assignee updated for Issue with id: " + issue.getId().toString());
 
-        User sessionUser = userDao.getUserById(changeAssigneeDto.getSessionUserId());
+            User sessionUser = userDao.getUserById(changeAssigneeDto.getSessionUserId());
 
-        ChangeTracker changeTracker = createChangeTracker(issue,ChangeType.REASSIGNMENT,sessionUser);
-        changeTracker.setNewUser(user);
-        changeTracker.setPreviousUser(previousUser);
-        changeTrackerDao.save(changeTracker);
-        logger.info("Assignee update logged in change tracker for IssueID: "+issue.getId().toString() );
+            ChangeTracker changeTracker = createChangeTracker(issue, ChangeType.REASSIGNMENT, sessionUser);
+            changeTracker.setNewUser(user);
+            changeTracker.setPreviousUser(previousUser);
+            changeTrackerDao.save(changeTracker);
+            logger.info("Assignee update logged in change tracker for IssueID: " + issue.getId().toString());
+        }catch (Exception e){
+            logger.error("Assignee could not be changed");
+            e.printStackTrace();
+
+        }
+
     }
 
     public void changeStatus(ChangeStatusDto changeStatusDto){
-        Issue issue = issueDao.getIssueById(changeStatusDto.getIssueId());
-        issue.setStatus(Status.valueOf(changeStatusDto.getStatus()));
-        issueDao.update(issue);
+        try {
+            Issue issue = issueDao.getIssueById(changeStatusDto.getIssueId());
+            issue.setStatus(Status.valueOf(changeStatusDto.getStatus()));
+            issueDao.update(issue);
 
-        logger.info("Status updated for Issue with id: "+issue.getId().toString() );
+            logger.info("Status updated for Issue with id: " + issue.getId().toString());
 
-        User sessionUser = userDao.getUserById(changeStatusDto.getSessionUserId());
+            User sessionUser = userDao.getUserById(changeStatusDto.getSessionUserId());
 
 
-        ChangeTracker changeTracker = createChangeTracker(issue,ChangeType.STATUS_CHANGE,sessionUser);
-        changeTracker.setNewStatus(issue.getStatus());
-        changeTrackerDao.save(changeTracker);
-        logger.info("Status update logged in change tracker for IssueID: "+issue.getId().toString());
+            ChangeTracker changeTracker = createChangeTracker(issue, ChangeType.STATUS_CHANGE, sessionUser);
+            changeTracker.setNewStatus(issue.getStatus());
+            changeTrackerDao.save(changeTracker);
+            logger.info("Status update logged in change tracker for IssueID: " + issue.getId().toString());
+        }catch(Exception e){
+            logger.error("Issue Status could not be changed");
+            e.printStackTrace();
+        }
+
     }
 
     public void postComment(CommentDto commentDto, MultipartFile attach){
-
         try{
             Issue issue = issueDao.getIssueById(commentDto.getIssueId());
             User user = userDao.getUserById(commentDto.getUserId());
@@ -162,17 +205,29 @@ public class IssueService {
         changeTrackerDao.save(changeTracker);
             logger.info("Comment addition logged in change tracker for IssueID: "+issue.getId().toString());
         }catch (IOException e) {
-            System.out.println("Cannot encode attachment");
+           logger.error("Cannot encode attachment");
         }
 
     }
 
     public List<Comment> getCommentsByIssue(Long issueId){
-        return commentDao.getCommentsByIssue(issueId);
+        try {
+            return commentDao.getCommentsByIssue(issueId);
+        }catch(Exception e){
+            logger.error("Comments could not fetched for issueId:"+issueId);
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Comment getComment(Long commentId){
-        return commentDao.getCommentById(commentId);
+        try {
+            return commentDao.getCommentById(commentId);
+        }catch (Exception e){
+            logger.error("Could not fetch comments");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private ChangeTracker createChangeTracker(Issue issue,ChangeType changeType, User user){

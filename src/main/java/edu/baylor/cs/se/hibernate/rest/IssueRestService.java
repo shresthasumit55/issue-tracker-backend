@@ -4,6 +4,8 @@ import edu.baylor.cs.se.hibernate.dto.ChangeAssigneeDto;
 import edu.baylor.cs.se.hibernate.dto.ChangeStatusDto;
 import edu.baylor.cs.se.hibernate.dto.CommentDto;
 import edu.baylor.cs.se.hibernate.dto.IssueDto;
+import edu.baylor.cs.se.hibernate.exception.InsertFailureException;
+import edu.baylor.cs.se.hibernate.exception.UpdateFailureException;
 import edu.baylor.cs.se.hibernate.model.ChangeTracker;
 import edu.baylor.cs.se.hibernate.model.Comment;
 import edu.baylor.cs.se.hibernate.model.Issue;
@@ -48,13 +50,21 @@ public class IssueRestService {
 
     @RequestMapping(value = "/issues", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<Issue> postIssues(@RequestBody IssueDto issue){
-        return new ResponseEntity(issueService.save(issue), HttpStatus.OK);
+        try {
+            return new ResponseEntity(issueService.save(issue), HttpStatus.OK);
+        }catch(InsertFailureException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @RequestMapping(value = "/issues/update", method = RequestMethod.PUT)
     public ResponseEntity<Issue> updateIssues(@RequestBody Issue issue){
-        issueService.update(issue);
-        return new ResponseEntity(HttpStatus.OK);
+        try {
+            issueService.update(issue);
+            return new ResponseEntity(HttpStatus.OK);
+        }catch(UpdateFailureException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @RequestMapping(value = "/issues/delete/{id}", method = RequestMethod.DELETE)

@@ -2,6 +2,8 @@ package edu.baylor.cs.se.hibernate.rest;
 
 import edu.baylor.cs.se.hibernate.dto.LoginDto;
 import edu.baylor.cs.se.hibernate.dto.UserDto;
+import edu.baylor.cs.se.hibernate.exception.InsertFailureException;
+import edu.baylor.cs.se.hibernate.exception.UpdateFailureException;
 import edu.baylor.cs.se.hibernate.model.User;
 import edu.baylor.cs.se.hibernate.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +34,21 @@ public class UserRestService {
 
     @RequestMapping(value = "/users", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<User> postUsers(@RequestBody UserDto user){
-        return new ResponseEntity(userService.save(user), HttpStatus.OK);
+        try{
+            return new ResponseEntity(userService.save(user), HttpStatus.OK);
+        }catch(InsertFailureException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @RequestMapping(value = "/users/update", method = RequestMethod.PUT)
     public ResponseEntity<User> updateUsers(@RequestBody User user){
-        userService.update(user);
-        return new ResponseEntity(HttpStatus.OK);
+        try {
+            userService.update(user);
+            return new ResponseEntity(HttpStatus.OK);
+        }catch(UpdateFailureException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @RequestMapping(value = "/users/delete/{id}", method = RequestMethod.DELETE)
@@ -54,12 +64,20 @@ public class UserRestService {
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<User> authenticate(@RequestBody LoginDto loginDto){
-        return new ResponseEntity(userService.authenticate(loginDto), HttpStatus.OK);
+        User user = userService.authenticate(loginDto);
+        if (user ==null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return new ResponseEntity(user, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<User> changePassword(@RequestBody LoginDto loginDto){
-        return new ResponseEntity(userService.changePassword(loginDto), HttpStatus.OK);
+        User user = userService.changePassword(loginDto);
+        if (user ==null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return new ResponseEntity(user, HttpStatus.OK);
     }
 
 }

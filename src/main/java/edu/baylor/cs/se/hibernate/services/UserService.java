@@ -5,6 +5,8 @@ import edu.baylor.cs.se.hibernate.dao.RoleDao;
 import edu.baylor.cs.se.hibernate.dao.UserDao;
 import edu.baylor.cs.se.hibernate.dto.LoginDto;
 import edu.baylor.cs.se.hibernate.dto.UserDto;
+import edu.baylor.cs.se.hibernate.exception.InsertFailureException;
+import edu.baylor.cs.se.hibernate.exception.UpdateFailureException;
 import edu.baylor.cs.se.hibernate.model.Project;
 import edu.baylor.cs.se.hibernate.model.Role;
 import edu.baylor.cs.se.hibernate.model.User;
@@ -37,76 +39,116 @@ public class UserService {
     private static final Logger logger = Logger.getLogger(UserService.class);
 
 
-    public User save(UserDto userDto) {
-        User user = new User();
-        user.setFirstname(userDto.getFirstname());
-        user.setMiddleName(userDto.getMiddleName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
+    public User save(UserDto userDto) throws InsertFailureException{
+        try {
+            User user = new User();
+            user.setFirstname(userDto.getFirstname());
+            user.setMiddleName(userDto.getMiddleName());
+            user.setLastName(userDto.getLastName());
+            user.setEmail(userDto.getEmail());
 
-        if(userDto.getProjectId()!=null){
+            if (userDto.getProjectId() != null) {
 
-        Project project = projectDao.getProjectById(userDto.getProjectId());
-        Set<Project> projectSet = new HashSet<>();
-        projectSet.add(project);
-        user.setProjectsInvolved(projectSet);
+                Project project = projectDao.getProjectById(userDto.getProjectId());
+                Set<Project> projectSet = new HashSet<>();
+                projectSet.add(project);
+                user.setProjectsInvolved(projectSet);
 
-        Role role = roleDao.getRoleById(userDto.getRoleId());
+                Role role = roleDao.getRoleById(userDto.getRoleId());
 
-        UserRoleMapping roleMapping = new UserRoleMapping(user,role,project);
-        Set<UserRoleMapping> roleMappingSet = new HashSet<>();
-        roleMappingSet.add(roleMapping);
-        user.setAvailableRoles(roleMappingSet);
+                UserRoleMapping roleMapping = new UserRoleMapping(user, role, project);
+                Set<UserRoleMapping> roleMappingSet = new HashSet<>();
+                roleMappingSet.add(roleMapping);
+                user.setAvailableRoles(roleMappingSet);
+            }
+            user.setPassword(Encryption.encrypt("Company123"));
+            user.setActiveStatus(true);
+
+            userDao.save(user);
+
+            logger.info("New User Added. user Id: " + user.getId().toString());
+            return user;
+        }catch (Exception e){
+            logger.error("User could not be inserted");
+            throw new InsertFailureException("User could not be updated");
+
         }
-        user.setPassword(Encryption.encrypt("Company123"));
-        user.setActiveStatus(true);
 
-        userDao.save(user);
-
-        logger.info("New User Added. user Id: "+user.getId().toString());
-        return user;
     }
 
-    public void delete(Long id)
-    {
-        userDao.delete(id);
-        logger.info("User with id: "+id.toString() + " deleted");
+    public void delete(Long id){
+        try {
+            userDao.delete(id);
+            logger.info("User with id: " + id.toString() + " deleted");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
-    public void update(User user)
-    {
-        userDao.update(user);
-        logger.info("User with id: "+user.getId().toString() + " updated.");
+    public void update(User user) throws UpdateFailureException {
+        try {
+            userDao.update(user);
+            logger.info("User with id: " + user.getId().toString() + " updated.");
+        }catch(Exception e){
+            logger.error("User could not be updated");
+            throw new UpdateFailureException("User could not be updated");
+        }
     }
 
-    public List<User> getAllUsers() { return userDao.getAllUsers();}
+    public List<User> getAllUsers() {
+        try {
+            return userDao.getAllUsers();
+        } catch (Exception e) {
+            logger.error("User could not be fetched");
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public User getUserById(Long id) {
-        User user =   userDao.getUserById(id);
-        return user;
+        try {
+            User user = userDao.getUserById(id);
+            return user;
+        }catch(Exception e){
+            logger.error("User could not be fetched");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public User getUserByEmail(String email) {
-        User user =   userDao.getUserByEmail(email);
-        return user;
+        try {
+            User user = userDao.getUserByEmail(email);
+            return user;
+        }catch(Exception e){
+            logger.error("User could not be fetched");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public User updateUserRoles(UserDto userDto){
-        User user = userDao.getUserById(userDto.getId());
-        Project project = projectDao.getProjectById(userDto.getProjectId());
-        Role role = roleDao.getRoleById(userDto.getRoleId());
+        try {
+            User user = userDao.getUserById(userDto.getId());
+            Project project = projectDao.getProjectById(userDto.getProjectId());
+            Role role = roleDao.getRoleById(userDto.getRoleId());
 
-        Set<Project> projectSet = user.getProjectsInvolved();
-        projectSet.add(project);
+            Set<Project> projectSet = user.getProjectsInvolved();
+            projectSet.add(project);
 
-        project.getMembers().add(user);
+            project.getMembers().add(user);
 
-        Set<UserRoleMapping> userRoleMappings = user.getAvailableRoles();
-        userRoleMappings.add(new UserRoleMapping(user,role,project));
+            Set<UserRoleMapping> userRoleMappings = user.getAvailableRoles();
+            userRoleMappings.add(new UserRoleMapping(user, role, project));
 
-        userDao.update(user);
-        logger.info("User role updated for user with id "+user.getId().toString());
-        return user;
+            userDao.update(user);
+            logger.info("User role updated for user with id " + user.getId().toString());
+            return user;
+        }catch(Exception e){
+            logger.error("Role could not be updated");
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

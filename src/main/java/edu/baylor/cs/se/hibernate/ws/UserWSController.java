@@ -1,6 +1,7 @@
 package edu.baylor.cs.se.hibernate.ws;
 
 import edu.baylor.cs.se.hibernate.dto.UserDto;
+import edu.baylor.cs.se.hibernate.exception.InsertFailureException;
 import edu.baylor.cs.se.hibernate.model.User;
 import edu.baylor.cs.se.hibernate.services.ProjectService;
 import edu.baylor.cs.se.hibernate.services.UserService;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class TestController {
+public class UserWSController {
 
 
     @Autowired
@@ -35,8 +36,12 @@ public class TestController {
     @MessageMapping("/statistics")
     @SendTo("/topic/stats")
     public String postUsers(@RequestBody UserDto userDto){
-        userService.save(userDto);
-        return userDto.getEmail();
+        try {
+            userService.save(userDto);
+            return userDto.getEmail();
+        }catch(InsertFailureException e){
+            return null;
+        }
     }
 }
 

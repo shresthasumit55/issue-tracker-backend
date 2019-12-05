@@ -1,6 +1,8 @@
 package edu.baylor.cs.se.hibernate.rest;
 
 import edu.baylor.cs.se.hibernate.dto.ProjectDto;
+import edu.baylor.cs.se.hibernate.exception.InsertFailureException;
+import edu.baylor.cs.se.hibernate.exception.UpdateFailureException;
 import edu.baylor.cs.se.hibernate.model.Project;
 import edu.baylor.cs.se.hibernate.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +34,21 @@ public class ProjectRestService {
 
     @RequestMapping(value = "/projects", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public ResponseEntity<Project> postProjects(@RequestBody ProjectDto project){
-        return new ResponseEntity(projectService.save(project),HttpStatus.OK);
+        try {
+            return new ResponseEntity(projectService.save(project), HttpStatus.OK);
+        }catch(InsertFailureException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @RequestMapping(value = "/projects/update", method = RequestMethod.PUT)
     public ResponseEntity<Project> updateProjects(@RequestBody Project project){
-        projectService.update(project);
-        return new ResponseEntity(HttpStatus.OK);
+        try {
+            projectService.update(project);
+            return new ResponseEntity(HttpStatus.OK);
+        }catch(UpdateFailureException e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
     }
 
     @RequestMapping(value = "/projects/delete/{id}", method = RequestMethod.DELETE)

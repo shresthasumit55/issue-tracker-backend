@@ -19,22 +19,32 @@ public class RoleService {
 
     private static final Logger logger = Logger.getLogger(RoleService.class);
 
-    public void save(Role role)
-    {
-        roleDao.save(role);
-        logger.info("New Project saved. Project Id: "+role.getId().toString());
+    public void save(Role role){
+        try {
+            roleDao.save(role);
+            logger.info("New Project saved. Project Id: " + role.getId().toString());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
-    public void delete(Long id)
-    {
-        roleDao.delete(id);
-        logger.info("Role with id: "+id.toString() + " deleted");
+    public void delete(Long id){
+        try {
+            roleDao.delete(id);
+            logger.info("Role with id: " + id.toString() + " deleted");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
-    public void update(Role role)
-    {
-        roleDao.update(role);
-        logger.info("Role with id: "+role.getId().toString() + " updated.");
+    public void update(Role role){
+        try{
+            roleDao.update(role);
+            logger.info("Role with id: "+role.getId().toString() + " updated.");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public List<Role> getAllRoles(){
