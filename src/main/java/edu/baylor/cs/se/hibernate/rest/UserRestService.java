@@ -22,6 +22,11 @@ public class UserRestService {
     public UserRestService(UserService userService) {this.userService = userService;}
 
 
+    @GetMapping("/")
+    public String test(){
+        return "your services are awake";
+    }
+
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ResponseEntity<List<User>> getAllUsers(){
         return new ResponseEntity(userService.getAllUsers(), HttpStatus.OK);
