@@ -37,7 +37,10 @@ public class User implements Serializable {
     @Column
     private Boolean activeStatus;
 
-    @ManyToMany(mappedBy = "members", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "PROJECT_USER",
+            joinColumns = { @JoinColumn(name = "USER_ID", referencedColumnName = "ID") },
+            inverseJoinColumns = { @JoinColumn(name = "PROJECT_ID", referencedColumnName = "ID") })
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")

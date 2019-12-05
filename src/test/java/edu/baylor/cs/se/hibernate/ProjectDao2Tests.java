@@ -43,8 +43,11 @@ public class ProjectDao2Tests {
 
         Project p3 = new Project("KEY2", "Project 3", "Awesome project 3");
         assertThat(projectService.isDuplicateProjectKey(p3.getKey(),existingProjects));
-
     }
+
+
+
+
 
 
 

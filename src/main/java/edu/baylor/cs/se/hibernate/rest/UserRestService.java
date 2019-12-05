@@ -57,5 +57,9 @@ public class UserRestService {
         return new ResponseEntity(userService.authenticate(loginDto), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/changePassword", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<User> changePassword(@RequestBody LoginDto loginDto){
+        return new ResponseEntity(userService.changePassword(loginDto), HttpStatus.OK);
+    }
 
 }

@@ -33,10 +33,7 @@ public class Project implements Serializable {
     @Column
     private String description;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "PROJECT_USER",
-            joinColumns = { @JoinColumn(name = "PROJECT_ID", referencedColumnName = "ID") },
-            inverseJoinColumns = { @JoinColumn(name = "USER_ID", referencedColumnName = "ID") })
+    @ManyToMany(mappedBy = "projectsInvolved", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,
             property = "id")

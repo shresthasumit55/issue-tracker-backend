@@ -24,12 +24,6 @@ public class IssueDaoTests {
     @Autowired
     IssueService issueService;
 
-    /*@Test
-    public void checkInsertedProjectExists(){
-        issueService.save(new IssueDto("TR55","Test Project 1","Test Project number one"));
-        Project project = issueService.getProjectByKey("TR1");
-        assertThat(project.getName().equals("Test Project 1"));
-    }*/
 
     @Test
     public void checkTest(){

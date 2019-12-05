@@ -44,6 +44,8 @@ public class UserService {
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
 
+        if(userDto.getProjectId()!=null){
+
         Project project = projectDao.getProjectById(userDto.getProjectId());
         Set<Project> projectSet = new HashSet<>();
         projectSet.add(project);
@@ -55,6 +57,7 @@ public class UserService {
         Set<UserRoleMapping> roleMappingSet = new HashSet<>();
         roleMappingSet.add(roleMapping);
         user.setAvailableRoles(roleMappingSet);
+        }
         user.setPassword(Encryption.encrypt("Company123"));
         user.setActiveStatus(true);
 
@@ -123,7 +126,26 @@ public class UserService {
             return null;
         }
 
+    }
 
+    public User changePassword(LoginDto loginDto){
+
+        User user = getUserByEmail(loginDto.getEmail());
+
+        if (user==null){
+            logger.error("User with the email could not be found");
+        }
+
+        if (Encryption.encrypt(loginDto.getPassword()).equals(user.getPassword())){
+            String newEncryptedPassword = Encryption.encrypt(loginDto.getNewPassword());
+            user.setPassword(newEncryptedPassword);
+            userDao.update(user);
+            return user;
+
+        }else{
+            logger.error("Old password was incorrect");
+            return null;
+        }
 
     }
 
