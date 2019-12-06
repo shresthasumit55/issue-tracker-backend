@@ -1,4 +1,5 @@
-Run the application using AppStarter main method.
+#Issue Tracker Services
 
-You can access in memory H2 DB on localhost:8080/console
+Run the application using AppStarter main method.
+This application contains the APIs for the issue tracking system.
 
