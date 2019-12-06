@@ -1,7 +1,0 @@
-edu/baylor/cs/se/hibernate/model/Course.class
-edu/baylor/cs/se/hibernate/AppStarter.class
-edu/baylor/cs/se/hibernate/model/Teacher.class
-edu/baylor/cs/se/hibernate/model/Student.class
-edu/baylor/cs/se/hibernate/model/Room.class
-edu/baylor/cs/se/hibernate/services/SuperRepository.class
-edu/baylor/cs/se/hibernate/controller/MyController.class
