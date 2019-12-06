@@ -4,7 +4,6 @@ import edu.baylor.cs.se.dto.CommentDto;
 import edu.baylor.cs.se.dto.IssueDto;
 import edu.baylor.cs.se.exception.InsertFailureException;
 import edu.baylor.cs.se.exception.UpdateFailureException;
-import edu.baylor.cs.se.hibernate.model.*;
 import edu.baylor.cs.se.model.*;
 import edu.baylor.cs.se.services.IssueService;
 import org.junit.Assert;
