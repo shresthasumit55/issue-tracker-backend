@@ -6,6 +6,7 @@ import edu.baylor.cs.se.hibernate.dto.ChangeStatusDto;
 import edu.baylor.cs.se.hibernate.dto.CommentDto;
 import edu.baylor.cs.se.hibernate.dto.IssueDto;
 import edu.baylor.cs.se.hibernate.exception.InsertFailureException;
+import edu.baylor.cs.se.hibernate.exception.NotAManagerException;
 import edu.baylor.cs.se.hibernate.exception.UpdateFailureException;
 import edu.baylor.cs.se.hibernate.model.*;
 import org.apache.log4j.Logger;
@@ -199,15 +200,23 @@ public class IssueService {
      * Method to change the status of the Issue
      * @param changeStatusDto
      */
-    public void changeStatus(ChangeStatusDto changeStatusDto){
+
+    public void changeStatus(ChangeStatusDto changeStatusDto) throws NotAManagerException {
         try {
             Issue issue = issueDao.getIssueById(changeStatusDto.getIssueId());
+            User sessionUser = userDao.getUserById(changeStatusDto.getSessionUserId());
+
+            if (!checkifUserisProjectManager(sessionUser,issue,changeStatusDto.getStatus())){
+                logger.error("The user cannot resolve the issue.");
+                throw new NotAManagerException("The user is not a project manager");
+            }
+
             issue.setStatus(Status.valueOf(changeStatusDto.getStatus()));
             issueDao.update(issue);
 
             logger.info("Status updated for Issue with id: " + issue.getId().toString());
 
-            User sessionUser = userDao.getUserById(changeStatusDto.getSessionUserId());
+
 
 
             ChangeTracker changeTracker = createChangeTracker(issue, ChangeType.STATUS_CHANGE, sessionUser);
@@ -218,6 +227,24 @@ public class IssueService {
             logger.error("Issue Status could not be changed");
             e.printStackTrace();
         }
+
+    }
+
+
+    public boolean checkifUserisProjectManager(User sessionUser, Issue issue, String newStatus){
+        if (!newStatus.equals(Status.RESOLVED.toString())){
+            //for other issue status, project manager check need not be done.
+            return true;
+        }
+        List<UserRoleMapping> userRoles = sessionUser.getAvailableRoles().stream().filter(item -> item.getProject()
+                .getId()==issue.getProject().getId()).collect(Collectors.toList());
+        for (UserRoleMapping userRoleMapping: userRoles){
+            if (userRoleMapping.getRole().getName().equals("MGR")){
+                return true;
+            }
+        }
+        return false;
+
 
     }
 
@@ -292,7 +319,7 @@ public class IssueService {
      * @param user
      * @return ChangeTracker for an Issue
      */
-    private ChangeTracker createChangeTracker(Issue issue,ChangeType changeType, User user){
+    public ChangeTracker createChangeTracker(Issue issue,ChangeType changeType, User user){
         ChangeTracker changeTracker = new ChangeTracker();
         changeTracker.setIssue(issue);
         changeTracker.setChangeType(changeType);

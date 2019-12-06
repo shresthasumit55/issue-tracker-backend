@@ -17,6 +17,8 @@ public class CommentDto {
     public CommentDto() {
     }
 
+
+
     public Long getUserId() {
         return userId;
     }
