@@ -202,7 +202,6 @@ public class IssueService {
      */
 
     public void changeStatus(ChangeStatusDto changeStatusDto) throws NotAManagerException {
-        try {
             Issue issue = issueDao.getIssueById(changeStatusDto.getIssueId());
             User sessionUser = userDao.getUserById(changeStatusDto.getSessionUserId());
 
@@ -212,21 +211,17 @@ public class IssueService {
             }
 
             issue.setStatus(Status.valueOf(changeStatusDto.getStatus()));
+            if (issue.getStatus().equals(Status.RESOLVED)){
+                issue.setAssignee(null);
+            }
             issueDao.update(issue);
 
             logger.info("Status updated for Issue with id: " + issue.getId().toString());
-
-
-
 
             ChangeTracker changeTracker = createChangeTracker(issue, ChangeType.STATUS_CHANGE, sessionUser);
             changeTracker.setNewStatus(issue.getStatus());
             changeTrackerDao.save(changeTracker);
             logger.info("Status update logged in change tracker for IssueID: " + issue.getId().toString());
-        }catch(Exception e){
-            logger.error("Issue Status could not be changed");
-            e.printStackTrace();
-        }
 
     }
 

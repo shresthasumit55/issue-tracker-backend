@@ -24,6 +24,7 @@ public class ProjectService {
     @Autowired
     ProjectDao projectDao;
 
+
     private static final Logger logger = Logger.getLogger(ProjectService.class);
 
     /**
@@ -140,4 +141,5 @@ public class ProjectService {
         return projects.stream().map(Project::getKey).collect(Collectors.toList()).contains(key);
 
     }
+
 }

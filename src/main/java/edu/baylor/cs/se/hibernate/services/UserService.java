@@ -203,6 +203,7 @@ public class UserService {
 
         if (user==null){
             logger.error("User with the email could not be found");
+            return null;
         }
         String plainText = Encryption.decrypt(user.getPassword());
         if (plainText.equals(loginDto.getPassword())){
@@ -228,6 +229,7 @@ public class UserService {
 
         if (user==null){
             logger.error("User with the email could not be found");
+            return null;
         }
 
         if (Encryption.encrypt(loginDto.getPassword()).equals(user.getPassword())){
