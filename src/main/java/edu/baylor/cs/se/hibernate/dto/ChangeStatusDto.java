@@ -1,5 +1,10 @@
 package edu.baylor.cs.se.hibernate.dto;
 
+
+
+/**
+ * This class stores data related to status change request from UI
+ */
 public class ChangeStatusDto {
 
     private Long issueId;

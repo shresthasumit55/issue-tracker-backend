@@ -29,7 +29,7 @@ public class ProjectService {
     /**
      * Method to save the Project
      * It checks that the key of the new Project is unique compared to the existing projects
-     * @param projectDto
+     * @param projectDto, project detail submitted from UI
      * @return Project
      * @throws InsertFailureException
      */
@@ -57,7 +57,7 @@ public class ProjectService {
 
     /**
      * Method to get a particular project based on the key provided
-     * @param key
+     * @param key, key of a particular project
      * @return Project
      */
     public Project getProjectByKey(String key){
@@ -72,7 +72,7 @@ public class ProjectService {
 
     /**
      * Method to delete the project based on the ID provided
-     * @param id
+     * @param id, id of the project that needs to be deleted
      */
     public void delete(Long id){
         try {
@@ -86,7 +86,7 @@ public class ProjectService {
 
     /**
      * Method to update the Project
-     * @param project
+     * @param project, project that needs to be updated
      * @throws UpdateFailureException
      */
     public void update(Project project) throws UpdateFailureException{
@@ -116,7 +116,7 @@ public class ProjectService {
 
     /**
      * Method to get a particular project based on its id
-     * @param id
+     * @param id, id of the project
      * @return Project
      */
     public Project getProjectById(Long id){
@@ -132,8 +132,8 @@ public class ProjectService {
     /**
      * Method to check whether a key provided is already used as the key of existing project
      * This is to ensure that two projects do not have the same key
-     * @param key
-     * @param projects
+     * @param key, key of the new project
+     * @param projects, list of current projects
      * @return True or False based on if the key already exists
      */
     public boolean isDuplicateProjectKey(String key, List<Project> projects){

@@ -1,5 +1,8 @@
 package edu.baylor.cs.se.hibernate.dto;
 
+/**
+ * This class stores data related to assignee change request from UI
+ */
 public class ChangeAssigneeDto {
 
     private Long userId;

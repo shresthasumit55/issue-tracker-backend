@@ -25,7 +25,7 @@ public class RoleService {
 
     /**
      * Method to save a new Role
-     * @param role
+     * @param role, new role to be saved
      */
     public void save(Role role){
         try {
@@ -38,7 +38,7 @@ public class RoleService {
 
     /**
      * Method to delete an existing Role based on the ID provided
-     * @param id
+     * @param id, id of the role that needs to be deleted
      */
     public void delete(Long id){
         try {
@@ -51,7 +51,7 @@ public class RoleService {
 
     /**
      * Method to update an existing Role
-     * @param role
+     * @param role, role that needs to be updated
      */
     public void update(Role role){
         try{
@@ -73,7 +73,7 @@ public class RoleService {
 
     /**
      * Method to get a particular Role based on the id provided
-     * @param id
+     * @param id, id of a particular role
      * @return Role
      */
     public Role getRoleById(Long id){

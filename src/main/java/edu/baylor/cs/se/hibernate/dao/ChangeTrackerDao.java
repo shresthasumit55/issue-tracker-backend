@@ -8,6 +8,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
+/**
+ * This class handles database communication for changetracker table
+ */
 @Repository
 public class ChangeTrackerDao {
 

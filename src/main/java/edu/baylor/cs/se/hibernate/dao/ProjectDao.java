@@ -7,6 +7,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+
+/**
+ * This class handles database communication for Project table
+ */
 @Repository
 public class ProjectDao {
 

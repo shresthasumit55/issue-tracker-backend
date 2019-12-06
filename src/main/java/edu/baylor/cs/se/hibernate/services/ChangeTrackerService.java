@@ -31,8 +31,8 @@ public class ChangeTrackerService {
      * Method to get the List of Changes based on the userID provided
      * This is used to display the list of recent changes made in the project
      * and issues that the user is involved in the Dashbaord
-     * @param userId
-     * @return
+     * @param userId, id of the user
+     * @return List of changes made by user
      */
     public Set<ChangeTracker> getChangesByUser(Long userId){
         try {

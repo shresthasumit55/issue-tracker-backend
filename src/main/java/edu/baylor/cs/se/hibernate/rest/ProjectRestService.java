@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+/**
+ * This class is RestAPI for project related services
+ */
 @RestController
 public class ProjectRestService {
 

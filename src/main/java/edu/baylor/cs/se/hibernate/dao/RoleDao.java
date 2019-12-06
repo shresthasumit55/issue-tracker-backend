@@ -8,6 +8,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+
+/**
+ * This class handles database communication for Role table
+ */
 @Repository
 public class RoleDao {
     @PersistenceContext

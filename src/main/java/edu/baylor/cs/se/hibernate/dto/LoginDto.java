@@ -1,5 +1,9 @@
 package edu.baylor.cs.se.hibernate.dto;
 
+
+/**
+ * This class stores data related to credentials for a user
+ */
 public class LoginDto {
 
     private String email;

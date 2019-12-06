@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+/**
+ * This class is RestAPI for role related services
+ */
 @RestController
 public class RoleRestService {
 

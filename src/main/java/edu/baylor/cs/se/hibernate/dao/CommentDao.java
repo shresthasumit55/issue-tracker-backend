@@ -8,6 +8,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
 
+
+/**
+ * This class handles database communication for comments table
+ */
 @Repository
 public class CommentDao {
 

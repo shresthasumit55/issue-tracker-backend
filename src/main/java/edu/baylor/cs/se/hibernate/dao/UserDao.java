@@ -7,6 +7,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+
+/**
+ * This class handles database communication for User table
+ */
 @Repository
 public class UserDao {
 

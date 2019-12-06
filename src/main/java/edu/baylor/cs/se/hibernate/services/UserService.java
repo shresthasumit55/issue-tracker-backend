@@ -45,8 +45,8 @@ public class UserService {
     /**
      * Method to save a new user
      * It is used to add a project for the user and the role of the user in that project
-     * @param userDto
-     * @return
+     * @param userDto, user detail submitted from UI
+     * @return User
      * @throws InsertFailureException
      */
     public User save(UserDto userDto) throws InsertFailureException{
@@ -88,7 +88,7 @@ public class UserService {
 
     /**
      * Method to delete an existing user based on the id provided
-     * @param id
+     * @param id, id of the user that needs to be deleted
      */
     public void delete(Long id){
         try {
@@ -101,7 +101,7 @@ public class UserService {
 
     /**
      * Method to update existing user
-     * @param user
+     * @param user, user that needs to be updated
      * @throws UpdateFailureException
      */
     public void update(User user) throws UpdateFailureException {
@@ -130,7 +130,7 @@ public class UserService {
 
     /**
      * Method to get a particular user based on the ID provided
-     * @param id
+     * @param id, id of a particular user
      * @return User
      */
     public User getUserById(Long id) {
@@ -147,7 +147,7 @@ public class UserService {
     /**
      * Method to get a particular user based on the email provided
      * It is used to change the password of the user
-     * @param email
+     * @param email, email of the user
      * @return User
      */
     public User getUserByEmail(String email) {
@@ -164,8 +164,8 @@ public class UserService {
     /**
      * Method to update the role of the user
      * It is used during edit roles where the role of the user can be changed based on each project
-     * @param userDto
-     * @return
+     * @param userDto, user detail submitted from UI
+     * @return User
      */
     public User updateUserRoles(UserDto userDto){
         try {
@@ -194,8 +194,8 @@ public class UserService {
     /**
      * Method to check whether the email and password provided during login is valid
      * It decrypts the password provided during login and compares it with the stored laptop
-     * @param loginDto
-     * @return
+     * @param loginDto, login detail submitted from UI
+     * @return user, user whose login is provided
      */
     public User authenticate(LoginDto loginDto){
 
@@ -219,7 +219,7 @@ public class UserService {
      * Method to change the password of User
      * It first confirms that the existing password provided by the user is valid
      * ANd encrypts and stores the new Password provided by the user
-     * @param loginDto
+     * @param loginDto, login detail submitted from UI
      * @return User
      */
     public User changePassword(LoginDto loginDto){

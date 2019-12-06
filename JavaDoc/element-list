@@ -1,0 +1,11 @@
+edu.baylor.cs.se.hibernate
+edu.baylor.cs.se.hibernate.config
+edu.baylor.cs.se.hibernate.constants
+edu.baylor.cs.se.hibernate.dao
+edu.baylor.cs.se.hibernate.dto
+edu.baylor.cs.se.hibernate.exception
+edu.baylor.cs.se.hibernate.model
+edu.baylor.cs.se.hibernate.rest
+edu.baylor.cs.se.hibernate.services
+edu.baylor.cs.se.hibernate.utils
+edu.baylor.cs.se.hibernate.ws

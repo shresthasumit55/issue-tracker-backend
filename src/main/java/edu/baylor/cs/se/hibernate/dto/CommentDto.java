@@ -1,5 +1,9 @@
 package edu.baylor.cs.se.hibernate.dto;
 
+
+/**
+ * This class stores data related to comment addition request from UI
+ */
 public class CommentDto {
 
     private Long userId;

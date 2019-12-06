@@ -2,6 +2,10 @@ package edu.baylor.cs.se.hibernate.dto;
 
 import java.util.Date;
 
+
+/**
+ * This class stores data related to issue from UI
+ */
 public class IssueDto {
 
     private Long id;

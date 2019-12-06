@@ -1,5 +1,9 @@
 package edu.baylor.cs.se.hibernate.dto;
 
+
+/**
+ * This class stores data related to project from UI
+ */
 public class ProjectDto {
 
     private Long id;

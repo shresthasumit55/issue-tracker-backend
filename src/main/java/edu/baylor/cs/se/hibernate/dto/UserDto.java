@@ -1,5 +1,9 @@
 package edu.baylor.cs.se.hibernate.dto;
 
+
+/**
+ * This class stores data related to users from UI
+ */
 public class UserDto {
 
     private Long id;

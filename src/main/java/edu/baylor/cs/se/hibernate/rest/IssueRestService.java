@@ -24,6 +24,10 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
+
+/**
+ * This class is RestAPI for issue related services
+ */
 @RestController
 public class IssueRestService {
 

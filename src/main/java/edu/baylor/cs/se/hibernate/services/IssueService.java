@@ -50,7 +50,7 @@ public class IssueService {
 
     /**
      * Method to save the issue
-     * @param issueDto
+     * @param issueDto , issue detail submitted from UI
      * @return Issue
      * @throws InsertFailureException
      */
@@ -101,7 +101,7 @@ public class IssueService {
 
     /**
      * Method to delete the issue
-     * @param id
+     * @param id, id of the issue that is to be deleted
      */
     public void delete(Long id){
         try {
@@ -115,7 +115,7 @@ public class IssueService {
 
     /**
      * Method to update the issue
-     * @param issue
+     * @param issue, particular issue that needs to be updated
      * @throws UpdateFailureException
      */
     public void update(Issue issue) throws UpdateFailureException{
@@ -156,7 +156,7 @@ public class IssueService {
 
     /**
      * Method to get the Issue after passing the id
-     * @param id
+     * @param id, id of the Issue
      * @return Issue
      */
     public Issue getIssueById(Long id){
@@ -170,7 +170,7 @@ public class IssueService {
 
     /**
      * Method to change the Assignee of an Issue
-     * @param changeAssigneeDto
+     * @param changeAssigneeDto, assignee detail submitted from UI
      */
     public void changeAssignee(ChangeAssigneeDto changeAssigneeDto){
         try {
@@ -199,8 +199,9 @@ public class IssueService {
 
     /**
      * Method to change the status of the Issue
-     * @param changeStatusDto
-     */
+     *@param changeStatusDto, status detail submitted from UI
+     *  @throws NotAManagerException
+      */
 
     public void changeStatus(ChangeStatusDto changeStatusDto) throws NotAManagerException {
         try {
@@ -251,8 +252,8 @@ public class IssueService {
 
     /**
      * Method to add a comment to an Issue
-     * @param commentDto
-     * @param attach
+     * @param commentDto, comment detail submitted from UI
+     * @param attach, attachement for the comment
      */
     public void postComment(CommentDto commentDto, MultipartFile attach){
         try{
@@ -285,7 +286,7 @@ public class IssueService {
 
     /**
      * Method to get the list of comments for an issue
-     * @param issueId
+     * @param issueId, id of the issue to get the list of comments
      * @return List of Comments
      */
     public List<Comment> getCommentsByIssue(Long issueId){
@@ -300,7 +301,7 @@ public class IssueService {
 
     /**
      * Method to get a particular comment by its ID
-     * @param commentId
+     * @param commentId, id of a particular comment
      * @return particular comment for the given id
      */
     public Comment getComment(Long commentId){
@@ -314,10 +315,10 @@ public class IssueService {
     }
 
     /**
-     * Methd
-     * @param issue
-     * @param changeType
-     * @param user
+     * Method to create a changetracker for an issue
+     * @param issue, the issue that is being changed
+     * @param changeType, type of change made in the issue
+     * @param user, user who is making the changes
      * @return ChangeTracker for an Issue
      */
     public ChangeTracker createChangeTracker(Issue issue,ChangeType changeType, User user){
