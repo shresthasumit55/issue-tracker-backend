@@ -5,6 +5,7 @@ import edu.baylor.cs.se.hibernate.dto.ChangeStatusDto;
 import edu.baylor.cs.se.hibernate.dto.CommentDto;
 import edu.baylor.cs.se.hibernate.dto.IssueDto;
 import edu.baylor.cs.se.hibernate.exception.InsertFailureException;
+import edu.baylor.cs.se.hibernate.exception.NotAManagerException;
 import edu.baylor.cs.se.hibernate.exception.UpdateFailureException;
 import edu.baylor.cs.se.hibernate.model.ChangeTracker;
 import edu.baylor.cs.se.hibernate.model.Comment;
@@ -81,8 +82,14 @@ public class IssueRestService {
 
     @RequestMapping(value = "/change-status", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity changeAssignee(@RequestBody ChangeStatusDto changeStatusDto){
-        issueService.changeStatus(changeStatusDto);
-        return new ResponseEntity(HttpStatus.OK);
+        try {
+            issueService.changeStatus(changeStatusDto);
+            return new ResponseEntity(HttpStatus.OK);
+        }catch(NotAManagerException e){
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
 
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
