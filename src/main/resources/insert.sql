@@ -29,10 +29,14 @@ INSERT INTO project(name, key_id, description) VALUES('Property Management', 4, 
 INSERT INTO role(name,description) VALUES('MGR','Creates and Manages Projects for a team');
 INSERT INTO role(name,description) VALUES('DEV','Solves issues created in a project');
 INSERT INTO role(name,description) VALUES('TST','Verifies the solution made by the developer');
-INSERT INTO role(name,description) VALUES('BA','Creates issues in a Project');
 
-INSERT INTO user(email, firstname, last_name) VALUES ('pratistha.shrestha@email.com','Pratistha','Shrestha');
-INSERT INTO user(email, firstname, last_name) VALUES ('sumit.shrestha@email.com','Sumit','Shrestha');
+INSERT INTO user(email, firstname, last_name, password) VALUES ('pratistha@gmail.com','Pratistha','Shrestha','iVIfJhlE/A4ATb03FAw+Fg==');
+INSERT INTO user(email, firstname, last_name, password) VALUES ('sumit@gmail.com','Sumit','Shrestha','iVIfJhlE/A4ATb03FAw+Fg==');
 
+INSERT INTO project_user (`project_id`, `user_id`) VALUES ('1', '1');
+INSERT INTO project_user (`project_id`, `user_id`) VALUES ('3', '2');
+
+INSERT INTO user_role_mapping (`project_id`, `role_id`, `user_id`) VALUES ('1', '1', '1');
+INSERT INTO `user_role_mapping` (`project_id`, `role_id`, `user_id`) VALUES ('3', '1', '2');
 
 

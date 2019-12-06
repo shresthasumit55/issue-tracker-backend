@@ -21,6 +21,7 @@ public class RoleService {
     @Autowired
     RoleDao roleDao;
 
+
     private static final Logger logger = Logger.getLogger(RoleService.class);
 
     /**
@@ -79,4 +80,6 @@ public class RoleService {
     public Role getRoleById(Long id){
         return roleDao.getRoleById(id);
     }
+
+
 }
