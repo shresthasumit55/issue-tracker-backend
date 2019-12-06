@@ -1,7 +1,6 @@
 package edu.baylor.cs.se.hibernate.dao;
 
 import edu.baylor.cs.se.hibernate.model.Comment;
-import edu.baylor.cs.se.hibernate.model.Issue;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

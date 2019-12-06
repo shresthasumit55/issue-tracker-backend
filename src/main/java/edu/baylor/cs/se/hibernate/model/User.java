@@ -7,12 +7,15 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+
+/**
+ * Data Model for User, that maps the class to the User table
+ * Details the relationship of user with other models
+ */
 
 @Entity
 public class User implements Serializable {

@@ -2,7 +2,6 @@ package edu.baylor.cs.se.hibernate.services;
 
 
 import edu.baylor.cs.se.hibernate.dao.RoleDao;
-import edu.baylor.cs.se.hibernate.model.Issue;
 import edu.baylor.cs.se.hibernate.model.Role;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +10,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Service Component for Role
+ * TO perform CRUD on Role
+ */
 @Transactional
 @Service
+
 public class RoleService {
     @Autowired
     RoleDao roleDao;
 
     private static final Logger logger = Logger.getLogger(RoleService.class);
 
+    /**
+     * Method to save a new Role
+     * @param role
+     */
     public void save(Role role){
         try {
             roleDao.save(role);
@@ -28,6 +36,10 @@ public class RoleService {
         }
     }
 
+    /**
+     * Method to delete an existing Role based on the ID provided
+     * @param id
+     */
     public void delete(Long id){
         try {
             roleDao.delete(id);
@@ -37,6 +49,10 @@ public class RoleService {
         }
     }
 
+    /**
+     * Method to update an existing Role
+     * @param role
+     */
     public void update(Role role){
         try{
             roleDao.update(role);
@@ -47,10 +63,19 @@ public class RoleService {
 
     }
 
+    /**
+     * Method to get the list of all existing roles
+     * @return List of Roles
+     */
     public List<Role> getAllRoles(){
         return roleDao.getAllRoles();
     }
 
+    /**
+     * Method to get a particular Role based on the id provided
+     * @param id
+     * @return Role
+     */
     public Role getRoleById(Long id){
         return roleDao.getRoleById(id);
     }

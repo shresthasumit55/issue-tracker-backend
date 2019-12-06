@@ -7,10 +7,13 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Data Model for Comment, that maps the class to the comment table
+ * Details the relationship of comment with other models
+ */
 @Entity
 public class Comment implements Serializable {
 

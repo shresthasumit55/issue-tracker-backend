@@ -6,10 +6,13 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Data Model for Issue, that maps the class to the Issue table
+ * Details the relationship of Issue with other models
+ */
 @Entity
 public class Issue implements Serializable {
 

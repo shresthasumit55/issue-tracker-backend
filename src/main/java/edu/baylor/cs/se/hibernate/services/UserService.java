@@ -13,8 +13,6 @@ import edu.baylor.cs.se.hibernate.model.User;
 import edu.baylor.cs.se.hibernate.model.UserRoleMapping;
 import edu.baylor.cs.se.hibernate.utils.Encryption;
 import org.apache.log4j.Logger;
-import org.jasypt.util.password.BasicPasswordEncryptor;
-import org.jasypt.util.text.BasicTextEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +21,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
+/**
+ * Service Component for User that includes the business logic
+ * To perform CRUD operation on User
+ */
 @Transactional
 @Service
 public class UserService {
@@ -39,6 +42,13 @@ public class UserService {
     private static final Logger logger = Logger.getLogger(UserService.class);
 
 
+    /**
+     * Method to save a new user
+     * It is used to add a project for the user and the role of the user in that project
+     * @param userDto
+     * @return
+     * @throws InsertFailureException
+     */
     public User save(UserDto userDto) throws InsertFailureException{
         try {
             User user = new User();
@@ -76,6 +86,10 @@ public class UserService {
 
     }
 
+    /**
+     * Method to delete an existing user based on the id provided
+     * @param id
+     */
     public void delete(Long id){
         try {
             userDao.delete(id);
@@ -85,6 +99,11 @@ public class UserService {
         }
     }
 
+    /**
+     * Method to update existing user
+     * @param user
+     * @throws UpdateFailureException
+     */
     public void update(User user) throws UpdateFailureException {
         try {
             userDao.update(user);
@@ -95,6 +114,10 @@ public class UserService {
         }
     }
 
+    /**
+     * Method to get the list of all users
+     * @return List of users
+     */
     public List<User> getAllUsers() {
         try {
             return userDao.getAllUsers();
@@ -105,6 +128,11 @@ public class UserService {
         }
     }
 
+    /**
+     * Method to get a particular user based on the ID provided
+     * @param id
+     * @return User
+     */
     public User getUserById(Long id) {
         try {
             User user = userDao.getUserById(id);
@@ -116,6 +144,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Method to get a particular user based on the email provided
+     * It is used to change the password of the user
+     * @param email
+     * @return User
+     */
     public User getUserByEmail(String email) {
         try {
             User user = userDao.getUserByEmail(email);
@@ -127,6 +161,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Method to update the role of the user
+     * It is used during edit roles where the role of the user can be changed based on each project
+     * @param userDto
+     * @return
+     */
     public User updateUserRoles(UserDto userDto){
         try {
             User user = userDao.getUserById(userDto.getId());
@@ -151,7 +191,12 @@ public class UserService {
         }
     }
 
-
+    /**
+     * Method to check whether the email and password provided during login is valid
+     * It decrypts the password provided during login and compares it with the stored laptop
+     * @param loginDto
+     * @return
+     */
     public User authenticate(LoginDto loginDto){
 
         User user = getUserByEmail(loginDto.getEmail());
@@ -170,6 +215,13 @@ public class UserService {
 
     }
 
+    /**
+     * Method to change the password of User
+     * It first confirms that the existing password provided by the user is valid
+     * ANd encrypts and stores the new Password provided by the user
+     * @param loginDto
+     * @return User
+     */
     public User changePassword(LoginDto loginDto){
 
         User user = getUserByEmail(loginDto.getEmail());

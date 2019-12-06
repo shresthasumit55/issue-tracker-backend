@@ -6,6 +6,7 @@ import edu.baylor.cs.se.hibernate.exception.InsertFailureException;
 import edu.baylor.cs.se.hibernate.model.Project;
 import edu.baylor.cs.se.hibernate.services.ProjectService;
 import org.hibernate.sql.Insert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,17 @@ public class ProjectDao2Tests {
 
         Project p3 = new Project("KEY2", "Project 3", "Awesome project 3");
         assertThat(projectService.isDuplicateProjectKey(p3.getKey(),existingProjects));
+    }
+
+    @Test
+    public void checkAllProjects(){
+        Project p1 = new Project("KEY1", "Project key 1", "Awesome project");
+        Project p2 = new Project("KEY2", "Project key 2", "Awesome project 2");
+
+        List<Project> existingProjects = new ArrayList<>();
+        existingProjects.add(p1);
+        existingProjects.add(p2);
+        Assert.assertEquals(projectService.getAllProjects().size(),12);
     }
 
 

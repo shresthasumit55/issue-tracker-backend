@@ -1,7 +1,5 @@
 package edu.baylor.cs.se.hibernate.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class CommentDto {
 
     private Long userId;

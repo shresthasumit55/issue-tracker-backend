@@ -21,6 +21,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Service Component for Issue that includes the business logic
+ * It has methods to save, update, delete issues and modify the comments and users involved in the issue
+ */
 @Transactional
 @Service
 public class IssueService {
@@ -42,6 +46,12 @@ public class IssueService {
 
     private static final org.apache.log4j.Logger logger = Logger.getLogger(IssueService.class);
 
+    /**
+     * Method to save the issue
+     * @param issueDto
+     * @return Issue
+     * @throws InsertFailureException
+     */
     public Issue save(IssueDto issueDto) throws InsertFailureException{
 
         try {
@@ -87,6 +97,10 @@ public class IssueService {
 
     }
 
+    /**
+     * Method to delete the issue
+     * @param id
+     */
     public void delete(Long id){
         try {
             issueDao.delete(id);
@@ -97,6 +111,11 @@ public class IssueService {
         }
     }
 
+    /**
+     * Method to update the issue
+     * @param issue
+     * @throws UpdateFailureException
+     */
     public void update(Issue issue) throws UpdateFailureException{
         try {
             issueDao.update(issue);
@@ -107,6 +126,10 @@ public class IssueService {
         }
     }
 
+    /**
+     * Method to get the list of all the issues
+     * @return List of Issues
+     */
     public List<Issue> getAllIssues(){
         try {
             return issueDao.getAllIssues();
@@ -116,6 +139,10 @@ public class IssueService {
         }
     }
 
+    /**
+     * Method to get the List of changes
+     * @return List of ChangeTracker
+     */
     public List<ChangeTracker> getChangeList(){
         try {
             return changeTrackerDao.getChangeList();
@@ -125,6 +152,11 @@ public class IssueService {
         }
     }
 
+    /**
+     * Method to get the Issue after passing the id
+     * @param id
+     * @return Issue
+     */
     public Issue getIssueById(Long id){
         try {
             return issueDao.getIssueById(id);
@@ -134,6 +166,10 @@ public class IssueService {
         }
     }
 
+    /**
+     * Method to change the Assignee of an Issue
+     * @param changeAssigneeDto
+     */
     public void changeAssignee(ChangeAssigneeDto changeAssigneeDto){
         try {
             User user = userDao.getUserById(changeAssigneeDto.getUserId());
@@ -159,6 +195,10 @@ public class IssueService {
 
     }
 
+    /**
+     * Method to change the status of the Issue
+     * @param changeStatusDto
+     */
     public void changeStatus(ChangeStatusDto changeStatusDto){
         try {
             Issue issue = issueDao.getIssueById(changeStatusDto.getIssueId());
@@ -181,6 +221,11 @@ public class IssueService {
 
     }
 
+    /**
+     * Method to add a comment to an Issue
+     * @param commentDto
+     * @param attach
+     */
     public void postComment(CommentDto commentDto, MultipartFile attach){
         try{
             Issue issue = issueDao.getIssueById(commentDto.getIssueId());
@@ -210,6 +255,11 @@ public class IssueService {
 
     }
 
+    /**
+     * Method to get the list of comments for an issue
+     * @param issueId
+     * @return List of Comments
+     */
     public List<Comment> getCommentsByIssue(Long issueId){
         try {
             return commentDao.getCommentsByIssue(issueId);
@@ -220,6 +270,11 @@ public class IssueService {
         }
     }
 
+    /**
+     * Method to get a particular comment by its ID
+     * @param commentId
+     * @return particular comment for the given id
+     */
     public Comment getComment(Long commentId){
         try {
             return commentDao.getCommentById(commentId);
@@ -230,6 +285,13 @@ public class IssueService {
         }
     }
 
+    /**
+     * Methd
+     * @param issue
+     * @param changeType
+     * @param user
+     * @return ChangeTracker for an Issue
+     */
     private ChangeTracker createChangeTracker(Issue issue,ChangeType changeType, User user){
         ChangeTracker changeTracker = new ChangeTracker();
         changeTracker.setIssue(issue);

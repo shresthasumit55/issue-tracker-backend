@@ -11,9 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
+/**
+ * Service Component for ChangeTracker that includes the business logic
+ * It is used to track the list of changes for Issues
+ */
 @Transactional
 @Service
 public class ChangeTrackerService {
@@ -24,6 +27,13 @@ public class ChangeTrackerService {
 
     private static final Logger logger = Logger.getLogger(ChangeTrackerService.class);
 
+    /**
+     * Method to get the List of Changes based on the userID provided
+     * This is used to display the list of recent changes made in the project
+     * and issues that the user is involved in the Dashbaord
+     * @param userId
+     * @return
+     */
     public Set<ChangeTracker> getChangesByUser(Long userId){
         try {
             Set<ChangeTracker> result = new HashSet<>();

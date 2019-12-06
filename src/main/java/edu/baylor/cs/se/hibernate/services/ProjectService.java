@@ -13,6 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service Component for Project that includes the business logic
+ * To Perform CRUD operation in Project
+ */
 @Transactional
 @Service
 public class ProjectService {
@@ -22,6 +26,13 @@ public class ProjectService {
 
     private static final Logger logger = Logger.getLogger(ProjectService.class);
 
+    /**
+     * Method to save the Project
+     * It checks that the key of the new Project is unique compared to the existing projects
+     * @param projectDto
+     * @return Project
+     * @throws InsertFailureException
+     */
     public Project save(ProjectDto projectDto) throws InsertFailureException  {
         try {
 
@@ -44,6 +55,11 @@ public class ProjectService {
         }
     }
 
+    /**
+     * Method to get a particular project based on the key provided
+     * @param key
+     * @return Project
+     */
     public Project getProjectByKey(String key){
         try {
             return projectDao.getProjectByKey(key);
@@ -54,6 +70,10 @@ public class ProjectService {
         }
     }
 
+    /**
+     * Method to delete the project based on the ID provided
+     * @param id
+     */
     public void delete(Long id){
         try {
             projectDao.delete(id);
@@ -64,6 +84,11 @@ public class ProjectService {
         }
     }
 
+    /**
+     * Method to update the Project
+     * @param project
+     * @throws UpdateFailureException
+     */
     public void update(Project project) throws UpdateFailureException{
         try {
             projectDao.update(project);
@@ -75,6 +100,10 @@ public class ProjectService {
         }
     }
 
+    /**
+     * Method to get the List of all the Projects
+     * @return List of all Projects
+     */
     public List<Project> getAllProjects(){
         try {
             return projectDao.getAllProjects();
@@ -85,6 +114,11 @@ public class ProjectService {
         }
     }
 
+    /**
+     * Method to get a particular project based on its id
+     * @param id
+     * @return Project
+     */
     public Project getProjectById(Long id){
         try {
             return projectDao.getProjectById(id);
@@ -95,6 +129,13 @@ public class ProjectService {
         }
     }
 
+    /**
+     * Method to check whether a key provided is already used as the key of existing project
+     * This is to ensure that two projects do not have the same key
+     * @param key
+     * @param projects
+     * @return True or False based on if the key already exists
+     */
     public boolean isDuplicateProjectKey(String key, List<Project> projects){
         return projects.stream().map(Project::getKey).collect(Collectors.toList()).contains(key);
 

@@ -1,10 +1,6 @@
 package edu.baylor.cs.se.hibernate.dto;
 
-import edu.baylor.cs.se.hibernate.model.*;
-
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 public class IssueDto {
 

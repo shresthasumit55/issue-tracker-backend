@@ -4,10 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
+
+
+/**
+ * Data Model for Mapping between user and roles, that maps the class to the userrolemapping table
+ * A user can have one role in one project, but can have more than one column of data in this table based on roles in
+ * different projects
+ */
 
 @Entity
 public class UserRoleMapping implements Serializable {

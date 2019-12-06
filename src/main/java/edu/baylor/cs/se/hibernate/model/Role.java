@@ -7,11 +7,15 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+
+/**
+ * Data Model for Role, that maps the class to the role table
+ * Details the relationship of role with other models
+ */
 @Entity
 public class Role implements Serializable {
 

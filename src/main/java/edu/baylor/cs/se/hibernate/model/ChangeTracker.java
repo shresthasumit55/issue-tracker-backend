@@ -9,9 +9,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
+
+/**
+ * Data Model for ChangeTracker, that maps the class to the changetracker table
+ * Details the relationship of the change with other models
+ */
 @Entity
 @XmlRootElement
-
 public class ChangeTracker implements Serializable {
 
     @Id
