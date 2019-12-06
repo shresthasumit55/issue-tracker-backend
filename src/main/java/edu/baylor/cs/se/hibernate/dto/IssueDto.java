@@ -33,10 +33,19 @@ public class IssueDto {
     private String description;
 
 
-
-
     public IssueDto(){
 
+    }
+
+    public IssueDto(String name, String type, String priorityLevel, String dueDate, Long project, Long creator, Long assignee, String description) {
+        this.name = name;
+        this.type = type;
+        this.priorityLevel = priorityLevel;
+        this.dueDate = dueDate;
+        this.project = project;
+        this.creator = creator;
+        this.assignee = assignee;
+        this.description = description;
     }
 
     public Long getId() {

@@ -255,7 +255,7 @@ public class IssueService {
         }
     }
 
-    private ChangeTracker createChangeTracker(Issue issue,ChangeType changeType, User user){
+    public ChangeTracker createChangeTracker(Issue issue,ChangeType changeType, User user){
         ChangeTracker changeTracker = new ChangeTracker();
         changeTracker.setIssue(issue);
         changeTracker.setChangeType(changeType);

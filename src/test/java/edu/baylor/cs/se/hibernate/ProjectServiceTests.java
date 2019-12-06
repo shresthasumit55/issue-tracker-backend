@@ -3,9 +3,11 @@ package edu.baylor.cs.se.hibernate;
 import edu.baylor.cs.se.hibernate.dao.ProjectDao;
 import edu.baylor.cs.se.hibernate.dto.ProjectDto;
 import edu.baylor.cs.se.hibernate.exception.InsertFailureException;
+import edu.baylor.cs.se.hibernate.exception.UpdateFailureException;
 import edu.baylor.cs.se.hibernate.model.Project;
 import edu.baylor.cs.se.hibernate.services.ProjectService;
 import org.hibernate.sql.Insert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class ProjectDao2Tests {
+public class ProjectServiceTests {
 
     @Autowired
     ProjectService projectService;
@@ -32,7 +34,7 @@ public class ProjectDao2Tests {
         try {
             projectService.save(new ProjectDto("TR55", "Test Project 1", "Test Project number one"));
             Project project = projectService.getProjectByKey("TR1");
-            assertThat(project.getName().equals("Test Project 1"));
+            Assert.assertTrue(project.getName().equals("Test Project 1"));
         }catch(InsertFailureException e){
             System.out.println(e.getMessage());
         }
@@ -48,7 +50,27 @@ public class ProjectDao2Tests {
         existingProjects.add(p2);
 
         Project p3 = new Project("KEY2", "Project 3", "Awesome project 3");
-        assertThat(projectService.isDuplicateProjectKey(p3.getKey(),existingProjects));
+        Assert.assertTrue(projectService.isDuplicateProjectKey(p3.getKey(),existingProjects));
+    }
+
+    @Test
+    public void checkUpdateProject(){
+        try {
+            projectService.save(new ProjectDto("TR111", "Test Project 1", "Test Project number one"));
+
+        Project project = projectService.getProjectByKey("TR111");
+        String modifiedName = "modified";
+        project.setName(modifiedName);
+        projectService.update(project);
+
+        Project updatedProject = projectService.getProjectByKey("TR111");
+        Assert.assertTrue(updatedProject.getName().equals(modifiedName));
+        } catch (InsertFailureException e) {
+            e.printStackTrace();
+        } catch (UpdateFailureException i){
+            i.printStackTrace();
+        }
+
     }
 
 
