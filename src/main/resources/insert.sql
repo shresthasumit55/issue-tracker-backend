@@ -26,10 +26,10 @@ INSERT INTO project(name, key_id, description) VALUES('Library Management', 2, '
 INSERT INTO project(name, key_id, description) VALUES('Code Duplication', 3, 'Find out the type of code duplication in a project');
 INSERT INTO project(name, key_id, description) VALUES('Property Management', 4, 'List and sell properties');
 
-INSERT INTO role(name,description) VALUES('Project Manager','Creates and Manages Projects for a team');
-INSERT INTO role(name,description) VALUES('Developer','Solves issues created in a project');
-INSERT INTO role(name,description) VALUES('Tester','Verifies the solution made by the developer');
-INSERT INTO role(name,description) VALUES('Business Analyst','Creates issues in a Project');
+INSERT INTO role(name,description) VALUES('MGR','Creates and Manages Projects for a team');
+INSERT INTO role(name,description) VALUES('DEV','Solves issues created in a project');
+INSERT INTO role(name,description) VALUES('TST','Verifies the solution made by the developer');
+INSERT INTO role(name,description) VALUES('BA','Creates issues in a Project');
 
 INSERT INTO user(email, firstname, last_name) VALUES ('pratistha.shrestha@email.com','Pratistha','Shrestha');
 INSERT INTO user(email, firstname, last_name) VALUES ('sumit.shrestha@email.com','Sumit','Shrestha');

@@ -63,7 +63,7 @@ public class IssueService {
             issue.setCreatedDate(new Date());
             issue.setDueDate(new SimpleDateFormat("yyyy-MM-dd").parse(issueDto.getDueDate()));
             issue.setLastModifiedDate(new Date());
-            issue.setStatus(Status.NEW);
+            issue.setStatus(Status.OPEN);
             issue.setDescription(issueDto.getDescription());
 
             Project project = projectDao.getProjectById(issueDto.getProject());
